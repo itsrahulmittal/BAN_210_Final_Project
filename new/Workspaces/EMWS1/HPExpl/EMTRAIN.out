@@ -1,0 +1,32 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Variable Summary
+
+          Measurement    Frequency
+ Role        Level         Count
+
+INPUT      INTERVAL          1    
+INPUT      NOMINAL           8    
+TARGET     NOMINAL           1    
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+
+The HPDMDB Procedure
+
+      Performance Information
+
+Execution Mode       Single-Machine
+Number of Threads    4             
+
+
+              Data Access Information
+ 
+Data                   Engine    Role      Path
+
+WORK._DMDBCLASS        V9        Output    On Client
+WORK._DMDBVAR          V9        Output    On Client
+EMWS1.FIMPORT_TRAIN    V9        Input     On Client

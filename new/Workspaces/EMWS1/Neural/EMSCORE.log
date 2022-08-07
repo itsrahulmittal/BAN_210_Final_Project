@@ -1,0 +1,3228 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "06 August 2022" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "19:46:07" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* Score Log";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* Score Log
+Date:                06 August 2022
+Time:                19:46:07
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O1EZH91I "C:\Users\RAHUL AGARWAL\Desktop\new\Workspaces\EMWS1\Neural\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O1EZH91I new;
+MPRINT(EM_DIAGRAM):   run;
+NOTE: This SAS session is using a registry in WORK.  All changes will be lost at the end of this session.
+21863      data work.outkey;
+MPRINT(EM_DIAGRAM):    data work.outkey;
+21864      set EMWS1.Neural_OUTKEY;
+MPRINT(EM_DIAGRAM):   set EMWS1.Neural_OUTKEY;
+21865      if upcase(ROLE) = 'HIDDEN';
+MPRINT(EM_DIAGRAM):   if upcase(ROLE) = 'HIDDEN';
+21866      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: There were 48 observations read from the data set EMWS1.NEURAL_OUTKEY.
+NOTE: The data set WORK.OUTKEY has 3 observations and 8 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+21867      filename emflow "C:\Users\RAHUL AGARWAL\Desktop\new\Workspaces\EMWS1\Neural\EMFLOWSCORE.sas";
+MPRINT(EM_DIAGRAM):    filename emflow "C:\Users\RAHUL AGARWAL\Desktop\new\Workspaces\EMWS1\Neural\EMFLOWSCORE.sas";
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Neural: Scoring DATA data;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+21868      *------------------------------------------------------------*;
+21869      * Neural: Scoring DATA data;
+21870      *------------------------------------------------------------*;
+21871      data EMWS1.Neural_TRAIN
+21872      / view=EMWS1.Neural_TRAIN
+21873      ;
+MPRINT(EM_DIAGRAM):   data EMWS1.Neural_TRAIN / view=EMWS1.Neural_TRAIN ;
+21874      set EMWS1.Impt_TRAIN
+21875      ;
+MPRINT(EM_DIAGRAM):   set EMWS1.Impt_TRAIN ;
+21876      %inc emflow;
+NOTE: %INCLUDE (level 1) file EMFLOW is file C:\Users\RAHUL AGARWAL\Desktop\new\Workspaces\EMWS1\Neural\EMFLOWSCORE.sas.
+21877     +***********************************;
+MPRINT(EM_DIAGRAM):   ***********************************;
+21878     +*** Begin Scoring Code for Neural;
+MPRINT(EM_DIAGRAM):   *** Begin Scoring Code for Neural;
+21879     +***********************************;
+MPRINT(EM_DIAGRAM):   ***********************************;
+21880     +DROP _DM_BAD _EPS _NOCL_ _MAX_ _MAXP_ _SUM_ _NTRIALS;
+MPRINT(EM_DIAGRAM):   DROP _DM_BAD _EPS _NOCL_ _MAX_ _MAXP_ _SUM_ _NTRIALS;
+21881     + _DM_BAD = 0;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 0;
+21882     + _NOCL_ = .;
+MPRINT(EM_DIAGRAM):   _NOCL_ = .;
+21883     + _MAX_ = .;
+MPRINT(EM_DIAGRAM):   _MAX_ = .;
+21884     + _MAXP_ = .;
+MPRINT(EM_DIAGRAM):   _MAXP_ = .;
+21885     + _SUM_ = .;
+MPRINT(EM_DIAGRAM):   _SUM_ = .;
+21886     + _NTRIALS = .;
+MPRINT(EM_DIAGRAM):   _NTRIALS = .;
+21887     + _EPS =                1E-10;
+MPRINT(EM_DIAGRAM):   _EPS = 1E-10;
+21888     +LENGTH _WARN_ $4
+21889     +      F_Class  $ 20
+21890     +      I_Class  $ 20
+21891     +      U_Class  $ 20
+21892     +;
+MPRINT(EM_DIAGRAM):   LENGTH _WARN_ $4 F_Class $ 20 I_Class $ 20 U_Class $ 20 ;
+21893     +      label S_deg_malig = 'Standard: deg_malig' ;
+MPRINT(EM_DIAGRAM):   label S_deg_malig = 'Standard: deg_malig' ;
+21894     +
+21895     +      label age20_29 = 'Dummy: age=20-29' ;
+MPRINT(EM_DIAGRAM):   label age20_29 = 'Dummy: age=20-29' ;
+21896     +
+21897     +      label age30_39 = 'Dummy: age=30-39' ;
+MPRINT(EM_DIAGRAM):   label age30_39 = 'Dummy: age=30-39' ;
+21898     +
+21899     +      label age40_49 = 'Dummy: age=40-49' ;
+MPRINT(EM_DIAGRAM):   label age40_49 = 'Dummy: age=40-49' ;
+21900     +
+21901     +      label age50_59 = 'Dummy: age=50-59' ;
+MPRINT(EM_DIAGRAM):   label age50_59 = 'Dummy: age=50-59' ;
+21902     +
+21903     +      label age60_69 = 'Dummy: age=60-69' ;
+MPRINT(EM_DIAGRAM):   label age60_69 = 'Dummy: age=60-69' ;
+21904     +
+21905     +      label breastleft = 'Dummy: breast=left' ;
+MPRINT(EM_DIAGRAM):   label breastleft = 'Dummy: breast=left' ;
+21906     +
+21907     +      label breast_quad_ = 'Dummy: breast_quad=?' ;
+MPRINT(EM_DIAGRAM):   label breast_quad_ = 'Dummy: breast_quad=?' ;
+21908     +
+21909     +      label breast_quadcentral = 'Dummy: breast_quad=central' ;
+MPRINT(EM_DIAGRAM):   label breast_quadcentral = 'Dummy: breast_quad=central' ;
+21910     +
+21911     +      label breast_quadleft_low = 'Dummy: breast_quad=left_low' ;
+MPRINT(EM_DIAGRAM):   label breast_quadleft_low = 'Dummy: breast_quad=left_low' ;
+21912     +
+21913     +      label breast_quadleft_up = 'Dummy: breast_quad=left_up' ;
+MPRINT(EM_DIAGRAM):   label breast_quadleft_up = 'Dummy: breast_quad=left_up' ;
+21914     +
+21915     +      label breast_quadright_low = 'Dummy: breast_quad=right_low' ;
+MPRINT(EM_DIAGRAM):   label breast_quadright_low = 'Dummy: breast_quad=right_low' ;
+21916     +
+21917     +      label inv_nodes0_2 = 'Dummy: inv_nodes=0-2' ;
+MPRINT(EM_DIAGRAM):   label inv_nodes0_2 = 'Dummy: inv_nodes=0-2' ;
+21918     +
+21919     +      label inv_nodes12_14 = 'Dummy: inv_nodes=12-14' ;
+MPRINT(EM_DIAGRAM):   label inv_nodes12_14 = 'Dummy: inv_nodes=12-14' ;
+21920     +
+21921     +      label inv_nodes15_17 = 'Dummy: inv_nodes=15-17' ;
+MPRINT(EM_DIAGRAM):   label inv_nodes15_17 = 'Dummy: inv_nodes=15-17' ;
+21922     +
+21923     +      label inv_nodes24_26 = 'Dummy: inv_nodes=24-26' ;
+MPRINT(EM_DIAGRAM):   label inv_nodes24_26 = 'Dummy: inv_nodes=24-26' ;
+21924     +
+21925     +      label inv_nodes3_5 = 'Dummy: inv_nodes=3-5' ;
+MPRINT(EM_DIAGRAM):   label inv_nodes3_5 = 'Dummy: inv_nodes=3-5' ;
+21926     +
+21927     +      label inv_nodes6_8 = 'Dummy: inv_nodes=6-8' ;
+MPRINT(EM_DIAGRAM):   label inv_nodes6_8 = 'Dummy: inv_nodes=6-8' ;
+21928     +
+21929     +      label irradiatno = 'Dummy: irradiat=no' ;
+MPRINT(EM_DIAGRAM):   label irradiatno = 'Dummy: irradiat=no' ;
+21930     +
+21931     +      label menopausege40 = 'Dummy: menopause=ge40' ;
+MPRINT(EM_DIAGRAM):   label menopausege40 = 'Dummy: menopause=ge40' ;
+21932     +
+21933     +      label menopauselt40 = 'Dummy: menopause=lt40' ;
+MPRINT(EM_DIAGRAM):   label menopauselt40 = 'Dummy: menopause=lt40' ;
+21934     +
+21935     +      label node_caps_ = 'Dummy: node_caps=?' ;
+MPRINT(EM_DIAGRAM):   label node_caps_ = 'Dummy: node_caps=?' ;
+21936     +
+21937     +      label node_capsno = 'Dummy: node_caps=no' ;
+MPRINT(EM_DIAGRAM):   label node_capsno = 'Dummy: node_caps=no' ;
+21938     +
+21939     +      label tumor_size0_4 = 'Dummy: tumor_size=0-4' ;
+MPRINT(EM_DIAGRAM):   label tumor_size0_4 = 'Dummy: tumor_size=0-4' ;
+21940     +
+21941     +      label tumor_size10_14 = 'Dummy: tumor_size=10-14' ;
+MPRINT(EM_DIAGRAM):   label tumor_size10_14 = 'Dummy: tumor_size=10-14' ;
+21942     +
+21943     +      label tumor_size15_19 = 'Dummy: tumor_size=15-19' ;
+MPRINT(EM_DIAGRAM):   label tumor_size15_19 = 'Dummy: tumor_size=15-19' ;
+21944     +
+21945     +      label tumor_size20_24 = 'Dummy: tumor_size=20-24' ;
+MPRINT(EM_DIAGRAM):   label tumor_size20_24 = 'Dummy: tumor_size=20-24' ;
+21946     +
+21947     +      label tumor_size25_29 = 'Dummy: tumor_size=25-29' ;
+MPRINT(EM_DIAGRAM):   label tumor_size25_29 = 'Dummy: tumor_size=25-29' ;
+21948     +
+21949     +      label tumor_size30_34 = 'Dummy: tumor_size=30-34' ;
+MPRINT(EM_DIAGRAM):   label tumor_size30_34 = 'Dummy: tumor_size=30-34' ;
+21950     +
+21951     +      label tumor_size35_39 = 'Dummy: tumor_size=35-39' ;
+MPRINT(EM_DIAGRAM):   label tumor_size35_39 = 'Dummy: tumor_size=35-39' ;
+21952     +
+21953     +      label tumor_size40_44 = 'Dummy: tumor_size=40-44' ;
+MPRINT(EM_DIAGRAM):   label tumor_size40_44 = 'Dummy: tumor_size=40-44' ;
+21954     +
+21955     +      label tumor_size45_49 = 'Dummy: tumor_size=45-49' ;
+MPRINT(EM_DIAGRAM):   label tumor_size45_49 = 'Dummy: tumor_size=45-49' ;
+21956     +
+21957     +      label tumor_size5_9 = 'Dummy: tumor_size=5-9' ;
+MPRINT(EM_DIAGRAM):   label tumor_size5_9 = 'Dummy: tumor_size=5-9' ;
+21958     +
+21959     +      label H11 = 'Hidden: H1=1' ;
+MPRINT(EM_DIAGRAM):   label H11 = 'Hidden: H1=1' ;
+21960     +
+21961     +      label H12 = 'Hidden: H1=2' ;
+MPRINT(EM_DIAGRAM):   label H12 = 'Hidden: H1=2' ;
+21962     +
+21963     +      label H13 = 'Hidden: H1=3' ;
+MPRINT(EM_DIAGRAM):   label H13 = 'Hidden: H1=3' ;
+21964     +
+21965     +      label I_Class = 'Into: Class' ;
+MPRINT(EM_DIAGRAM):   label I_Class = 'Into: Class' ;
+21966     +
+21967     +      label F_Class = 'From: Class' ;
+MPRINT(EM_DIAGRAM):   label F_Class = 'From: Class' ;
+21968     +
+21969     +      label U_Class = 'Unnormalized Into: Class' ;
+MPRINT(EM_DIAGRAM):   label U_Class = 'Unnormalized Into: Class' ;
+21970     +
+21971     +      label P_Classrecurrence_events = 'Predicted: Class=recurrence-events' ;
+MPRINT(EM_DIAGRAM):   label P_Classrecurrence_events = 'Predicted: Class=recurrence-events' ;
+21972     +
+21973     +      label R_Classrecurrence_events = 'Residual: Class=recurrence-events' ;
+MPRINT(EM_DIAGRAM):   label R_Classrecurrence_events = 'Residual: Class=recurrence-events' ;
+21974     +
+21975     +      label P_Classno_recurrence_events =
+21976     +'Predicted: Class=no-recurrence-events' ;
+MPRINT(EM_DIAGRAM):   label P_Classno_recurrence_events = 'Predicted: Class=no-recurrence-events' ;
+21977     +
+21978     +      label R_Classno_recurrence_events =
+21979     +'Residual: Class=no-recurrence-events' ;
+MPRINT(EM_DIAGRAM):   label R_Classno_recurrence_events = 'Residual: Class=no-recurrence-events' ;
+21980     +
+21981     +      label  _WARN_ = "Warnings";
+MPRINT(EM_DIAGRAM):   label _WARN_ = "Warnings";
+21982     +
+21983     +*** Generate dummy variables for age ;
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for age ;
+21984     +drop age20_29 age30_39 age40_49 age50_59 age60_69 ;
+MPRINT(EM_DIAGRAM):   drop age20_29 age30_39 age40_49 age50_59 age60_69 ;
+21985     +*** encoding is sparse, initialize to zero;
+MPRINT(EM_DIAGRAM):   *** encoding is sparse, initialize to zero;
+21986     +age20_29 = 0;
+MPRINT(EM_DIAGRAM):   age20_29 = 0;
+21987     +age30_39 = 0;
+MPRINT(EM_DIAGRAM):   age30_39 = 0;
+21988     +age40_49 = 0;
+MPRINT(EM_DIAGRAM):   age40_49 = 0;
+21989     +age50_59 = 0;
+MPRINT(EM_DIAGRAM):   age50_59 = 0;
+21990     +age60_69 = 0;
+MPRINT(EM_DIAGRAM):   age60_69 = 0;
+21991     +if missing( age ) then do;
+MPRINT(EM_DIAGRAM):   if missing( age ) then do;
+21992     +   age20_29 = .;
+MPRINT(EM_DIAGRAM):   age20_29 = .;
+21993     +   age30_39 = .;
+MPRINT(EM_DIAGRAM):   age30_39 = .;
+21994     +   age40_49 = .;
+MPRINT(EM_DIAGRAM):   age40_49 = .;
+21995     +   age50_59 = .;
+MPRINT(EM_DIAGRAM):   age50_59 = .;
+21996     +   age60_69 = .;
+MPRINT(EM_DIAGRAM):   age60_69 = .;
+21997     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+21998     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+21999     +end;
+MPRINT(EM_DIAGRAM):   end;
+22000     +else do;
+MPRINT(EM_DIAGRAM):   else do;
+22001     +   length _dm5 $ 5; drop _dm5 ;
+MPRINT(EM_DIAGRAM):   length _dm5 $ 5;
+MPRINT(EM_DIAGRAM):   drop _dm5 ;
+22002     +   _dm5 = put( age , $5. );
+MPRINT(EM_DIAGRAM):   _dm5 = put( age , $5. );
+22003     +   %DMNORMIP( _dm5 )
+MPRINT(DMNORMIP):   call dmnorm(_dm5,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMIP):  );
+MPRINT(EM_DIAGRAM):   _dm_find = 0;
+MPRINT(EM_DIAGRAM):   drop _dm_find;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '40-49' then do;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '30-39' then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '20-29' then do;
+MPRINT(EM_DIAGRAM):   age20_29 = 1;
+22004     +   _dm_find = 0; drop _dm_find;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22005     +   if _dm5 <= '40-49'  then do;
+MPRINT(EM_DIAGRAM):   end;
+22006     +      if _dm5 <= '30-39'  then do;
+22007     +         if _dm5 = '20-29'  then do;
+MPRINT(EM_DIAGRAM):   else do;
+22008     +            age20_29 = 1;
+MPRINT(EM_DIAGRAM):   if _dm5 = '30-39' then do;
+22009     +            _dm_find = 1;
+MPRINT(EM_DIAGRAM):   age30_39 = 1;
+22010     +         end;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22011     +         else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   end;
+22012     +            if _dm5 = '30-39'  then do;
+MPRINT(EM_DIAGRAM):   end;
+22013     +               age30_39 = 1;
+22014     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   else do;
+22015     +            end;
+MPRINT(EM_DIAGRAM):   if _dm5 = '40-49' then do;
+22016     +         end;
+MPRINT(EM_DIAGRAM):   age40_49 = 1;
+22017     +      end;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22018     +      else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   end;
+22019     +         if _dm5 = '40-49'  then do;
+MPRINT(EM_DIAGRAM):   end;
+22020     +            age40_49 = 1;
+22021     +            _dm_find = 1;
+MPRINT(EM_DIAGRAM):   else do;
+22022     +         end;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '60-69' then do;
+22023     +      end;
+MPRINT(EM_DIAGRAM):   if _dm5 = '50-59' then do;
+22024     +   end;
+MPRINT(EM_DIAGRAM):   age50_59 = 1;
+22025     +   else do;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+MPRINT(EM_DIAGRAM):   end;
+22026     +      if _dm5 <= '60-69'  then do;
+22027     +         if _dm5 = '50-59'  then do;
+MPRINT(EM_DIAGRAM):   else do;
+22028     +            age50_59 = 1;
+MPRINT(EM_DIAGRAM):   if _dm5 = '60-69' then do;
+22029     +            _dm_find = 1;
+MPRINT(EM_DIAGRAM):   age60_69 = 1;
+22030     +         end;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22031     +         else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   end;
+22032     +            if _dm5 = '60-69'  then do;
+MPRINT(EM_DIAGRAM):   end;
+22033     +               age60_69 = 1;
+22034     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   else do;
+22035     +            end;
+MPRINT(EM_DIAGRAM):   if _dm5 = '70-79' then do;
+22036     +         end;
+MPRINT(EM_DIAGRAM):   age20_29 = -1;
+22037     +      end;
+MPRINT(EM_DIAGRAM):   age30_39 = -1;
+22038     +      else do;
+MPRINT(EM_DIAGRAM):   age40_49 = -1;
+MPRINT(EM_DIAGRAM):   age50_59 = -1;
+22039     +         if _dm5 = '70-79'  then do;
+MPRINT(EM_DIAGRAM):   age60_69 = -1;
+22040     +            age20_29 = -1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22041     +            age30_39 = -1;
+MPRINT(EM_DIAGRAM):   end;
+22042     +            age40_49 = -1;
+MPRINT(EM_DIAGRAM):   end;
+22043     +            age50_59 = -1;
+MPRINT(EM_DIAGRAM):   end;
+22044     +            age60_69 = -1;
+MPRINT(EM_DIAGRAM):   if not _dm_find then do;
+22045     +            _dm_find = 1;
+MPRINT(EM_DIAGRAM):   age20_29 = .;
+22046     +         end;
+MPRINT(EM_DIAGRAM):   age30_39 = .;
+22047     +      end;
+MPRINT(EM_DIAGRAM):   age40_49 = .;
+22048     +   end;
+MPRINT(EM_DIAGRAM):   age50_59 = .;
+22049     +   if not _dm_find then do;
+MPRINT(EM_DIAGRAM):   age60_69 = .;
+22050     +      age20_29 = .;
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+22051     +      age30_39 = .;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22052     +      age40_49 = .;
+MPRINT(EM_DIAGRAM):   end;
+22053     +      age50_59 = .;
+MPRINT(EM_DIAGRAM):   end;
+22054     +      age60_69 = .;
+22055     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for breast ;
+22056     +      _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   drop breastleft ;
+22057     +   end;
+MPRINT(EM_DIAGRAM):   if missing( breast ) then do;
+22058     +end;
+MPRINT(EM_DIAGRAM):   breastleft = .;
+22059     +
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+22060     +*** Generate dummy variables for breast ;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22061     +drop breastleft ;
+MPRINT(EM_DIAGRAM):   end;
+22062     +if missing( breast ) then do;
+22063     +   breastleft = .;
+MPRINT(EM_DIAGRAM):   else do;
+22064     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   length _dm5 $ 5;
+22065     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   drop _dm5 ;
+22066     +end;
+MPRINT(EM_DIAGRAM):   _dm5 = put( breast , $5. );
+22067     +else do;
+22068     +   length _dm5 $ 5; drop _dm5 ;
+MPRINT(DMNORMIP):   call dmnorm(_dm5,
+22069     +   _dm5 = put( breast , $5. );
+22070     +   %DMNORMIP( _dm5 )
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMIP):  );
+MPRINT(EM_DIAGRAM):   if _dm5 = 'LEFT' then do;
+MPRINT(EM_DIAGRAM):   breastleft = 1;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if _dm5 = 'RIGHT' then do;
+22071     +   if _dm5 = 'LEFT'  then do;
+MPRINT(EM_DIAGRAM):   breastleft = -1;
+22072     +      breastleft = 1;
+MPRINT(EM_DIAGRAM):   end;
+22073     +   end;
+22074     +   else if _dm5 = 'RIGHT'  then do;
+MPRINT(EM_DIAGRAM):   else do;
+MPRINT(EM_DIAGRAM):   breastleft = .;
+22075     +      breastleft = -1;
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+22076     +   end;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22077     +   else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   end;
+22078     +      breastleft = .;
+22079     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for breast_quad ;
+22080     +      _DM_BAD = 1;
+22081     +   end;
+MPRINT(EM_DIAGRAM):   drop breast_quad_ breast_quadcentral breast_quadleft_low breast_quadleft_up breast_quadright_low ;
+22082     +end;
+MPRINT(EM_DIAGRAM):   *** encoding is sparse, initialize to zero;
+22083     +
+MPRINT(EM_DIAGRAM):   breast_quad_ = 0;
+22084     +*** Generate dummy variables for breast_quad ;
+MPRINT(EM_DIAGRAM):   breast_quadcentral = 0;
+22085     +drop breast_quad_ breast_quadcentral breast_quadleft_low breast_quadleft_up
+MPRINT(EM_DIAGRAM):   breast_quadleft_low = 0;
+22086     +        breast_quadright_low ;
+MPRINT(EM_DIAGRAM):   breast_quadleft_up = 0;
+22087     +*** encoding is sparse, initialize to zero;
+MPRINT(EM_DIAGRAM):   breast_quadright_low = 0;
+22088     +breast_quad_ = 0;
+MPRINT(EM_DIAGRAM):   if missing( breast_quad ) then do;
+22089     +breast_quadcentral = 0;
+MPRINT(EM_DIAGRAM):   breast_quad_ = .;
+22090     +breast_quadleft_low = 0;
+MPRINT(EM_DIAGRAM):   breast_quadcentral = .;
+22091     +breast_quadleft_up = 0;
+MPRINT(EM_DIAGRAM):   breast_quadleft_low = .;
+22092     +breast_quadright_low = 0;
+MPRINT(EM_DIAGRAM):   breast_quadleft_up = .;
+22093     +if missing( breast_quad ) then do;
+MPRINT(EM_DIAGRAM):   breast_quadright_low = .;
+22094     +   breast_quad_ = .;
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+22095     +   breast_quadcentral = .;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22096     +   breast_quadleft_low = .;
+MPRINT(EM_DIAGRAM):   end;
+22097     +   breast_quadleft_up = .;
+22098     +   breast_quadright_low = .;
+MPRINT(EM_DIAGRAM):   else do;
+22099     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   length _dm9 $ 9;
+22100     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   drop _dm9 ;
+22101     +end;
+22102     +else do;
+22103     +   length _dm9 $ 9; drop _dm9 ;
+22104     +   %DMNORMCP( breast_quad , _dm9 )
+MPRINT(DMNORMCP):   _dm9=dmnorm(breast_quad,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMCP):  );
+MPRINT(EM_DIAGRAM):   if _dm9 = 'LEFT_UP' then do;
+MPRINT(EM_DIAGRAM):   breast_quadleft_up = 1;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if _dm9 = 'LEFT_LOW' then do;
+22105     +   if _dm9 = 'LEFT_UP'  then do;
+MPRINT(EM_DIAGRAM):   breast_quadleft_low = 1;
+22106     +      breast_quadleft_up = 1;
+MPRINT(EM_DIAGRAM):   end;
+22107     +   end;
+22108     +   else if _dm9 = 'LEFT_LOW'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm9 = 'RIGHT_UP' then do;
+MPRINT(EM_DIAGRAM):   breast_quad_ = -1;
+22109     +      breast_quadleft_low = 1;
+MPRINT(EM_DIAGRAM):   breast_quadcentral = -1;
+22110     +   end;
+MPRINT(EM_DIAGRAM):   breast_quadleft_low = -1;
+22111     +   else if _dm9 = 'RIGHT_UP'  then do;
+MPRINT(EM_DIAGRAM):   breast_quadleft_up = -1;
+MPRINT(EM_DIAGRAM):   breast_quadright_low = -1;
+22112     +      breast_quad_ = -1;
+MPRINT(EM_DIAGRAM):   end;
+22113     +      breast_quadcentral = -1;
+22114     +      breast_quadleft_low = -1;
+MPRINT(EM_DIAGRAM):   else if _dm9 = 'CENTRAL' then do;
+22115     +      breast_quadleft_up = -1;
+MPRINT(EM_DIAGRAM):   breast_quadcentral = 1;
+22116     +      breast_quadright_low = -1;
+MPRINT(EM_DIAGRAM):   end;
+22117     +   end;
+22118     +   else if _dm9 = 'CENTRAL'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm9 = 'RIGHT_LOW' then do;
+MPRINT(EM_DIAGRAM):   breast_quadright_low = 1;
+22119     +      breast_quadcentral = 1;
+MPRINT(EM_DIAGRAM):   end;
+22120     +   end;
+22121     +   else if _dm9 = 'RIGHT_LOW'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm9 = '?' then do;
+MPRINT(EM_DIAGRAM):   breast_quad_ = 1;
+22122     +      breast_quadright_low = 1;
+MPRINT(EM_DIAGRAM):   end;
+22123     +   end;
+22124     +   else if _dm9 = '?'  then do;
+MPRINT(EM_DIAGRAM):   else do;
+MPRINT(EM_DIAGRAM):   breast_quad_ = .;
+22125     +      breast_quad_ = 1;
+MPRINT(EM_DIAGRAM):   breast_quadcentral = .;
+22126     +   end;
+MPRINT(EM_DIAGRAM):   breast_quadleft_low = .;
+22127     +   else do;
+MPRINT(EM_DIAGRAM):   breast_quadleft_up = .;
+MPRINT(EM_DIAGRAM):   breast_quadright_low = .;
+22128     +      breast_quad_ = .;
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+22129     +      breast_quadcentral = .;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22130     +      breast_quadleft_low = .;
+MPRINT(EM_DIAGRAM):   end;
+22131     +      breast_quadleft_up = .;
+MPRINT(EM_DIAGRAM):   end;
+22132     +      breast_quadright_low = .;
+22133     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for inv_nodes ;
+22134     +      _DM_BAD = 1;
+22135     +   end;
+MPRINT(EM_DIAGRAM):   drop inv_nodes0_2 inv_nodes12_14 inv_nodes15_17 inv_nodes24_26 inv_nodes3_5 inv_nodes6_8 ;
+22136     +end;
+MPRINT(EM_DIAGRAM):   *** encoding is sparse, initialize to zero;
+22137     +
+MPRINT(EM_DIAGRAM):   inv_nodes0_2 = 0;
+22138     +*** Generate dummy variables for inv_nodes ;
+MPRINT(EM_DIAGRAM):   inv_nodes12_14 = 0;
+22139     +drop inv_nodes0_2 inv_nodes12_14 inv_nodes15_17 inv_nodes24_26 inv_nodes3_5
+MPRINT(EM_DIAGRAM):   inv_nodes15_17 = 0;
+22140     +        inv_nodes6_8 ;
+MPRINT(EM_DIAGRAM):   inv_nodes24_26 = 0;
+22141     +*** encoding is sparse, initialize to zero;
+MPRINT(EM_DIAGRAM):   inv_nodes3_5 = 0;
+22142     +inv_nodes0_2 = 0;
+MPRINT(EM_DIAGRAM):   inv_nodes6_8 = 0;
+22143     +inv_nodes12_14 = 0;
+MPRINT(EM_DIAGRAM):   if missing( inv_nodes ) then do;
+22144     +inv_nodes15_17 = 0;
+MPRINT(EM_DIAGRAM):   inv_nodes0_2 = .;
+22145     +inv_nodes24_26 = 0;
+MPRINT(EM_DIAGRAM):   inv_nodes12_14 = .;
+22146     +inv_nodes3_5 = 0;
+MPRINT(EM_DIAGRAM):   inv_nodes15_17 = .;
+22147     +inv_nodes6_8 = 0;
+MPRINT(EM_DIAGRAM):   inv_nodes24_26 = .;
+22148     +if missing( inv_nodes ) then do;
+MPRINT(EM_DIAGRAM):   inv_nodes3_5 = .;
+22149     +   inv_nodes0_2 = .;
+MPRINT(EM_DIAGRAM):   inv_nodes6_8 = .;
+22150     +   inv_nodes12_14 = .;
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+22151     +   inv_nodes15_17 = .;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22152     +   inv_nodes24_26 = .;
+MPRINT(EM_DIAGRAM):   end;
+22153     +   inv_nodes3_5 = .;
+22154     +   inv_nodes6_8 = .;
+MPRINT(EM_DIAGRAM):   else do;
+22155     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   length _dm5 $ 5;
+22156     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   drop _dm5 ;
+22157     +end;
+22158     +else do;
+22159     +   length _dm5 $ 5; drop _dm5 ;
+MPRINT(DMNORMCP):   _dm5=dmnorm(inv_nodes,
+22160     +   %DMNORMCP( inv_nodes , _dm5 )
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMCP):  );
+MPRINT(EM_DIAGRAM):   if _dm5 = '0-2' then do;
+MPRINT(EM_DIAGRAM):   inv_nodes0_2 = 1;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if _dm5 = '3-5' then do;
+22161     +   if _dm5 = '0-2'  then do;
+MPRINT(EM_DIAGRAM):   inv_nodes3_5 = 1;
+22162     +      inv_nodes0_2 = 1;
+MPRINT(EM_DIAGRAM):   end;
+22163     +   end;
+22164     +   else if _dm5 = '3-5'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm5 = '6-8' then do;
+MPRINT(EM_DIAGRAM):   inv_nodes6_8 = 1;
+22165     +      inv_nodes3_5 = 1;
+MPRINT(EM_DIAGRAM):   end;
+22166     +   end;
+22167     +   else if _dm5 = '6-8'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm5 = '15-17' then do;
+MPRINT(EM_DIAGRAM):   inv_nodes15_17 = 1;
+22168     +      inv_nodes6_8 = 1;
+MPRINT(EM_DIAGRAM):   end;
+22169     +   end;
+22170     +   else if _dm5 = '15-17'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm5 = '9-11' then do;
+MPRINT(EM_DIAGRAM):   inv_nodes0_2 = -1;
+22171     +      inv_nodes15_17 = 1;
+MPRINT(EM_DIAGRAM):   inv_nodes12_14 = -1;
+22172     +   end;
+MPRINT(EM_DIAGRAM):   inv_nodes15_17 = -1;
+22173     +   else if _dm5 = '9-11'  then do;
+MPRINT(EM_DIAGRAM):   inv_nodes24_26 = -1;
+MPRINT(EM_DIAGRAM):   inv_nodes3_5 = -1;
+22174     +      inv_nodes0_2 = -1;
+MPRINT(EM_DIAGRAM):   inv_nodes6_8 = -1;
+22175     +      inv_nodes12_14 = -1;
+MPRINT(EM_DIAGRAM):   end;
+22176     +      inv_nodes15_17 = -1;
+22177     +      inv_nodes24_26 = -1;
+MPRINT(EM_DIAGRAM):   else if _dm5 = '12-14' then do;
+22178     +      inv_nodes3_5 = -1;
+MPRINT(EM_DIAGRAM):   inv_nodes12_14 = 1;
+22179     +      inv_nodes6_8 = -1;
+MPRINT(EM_DIAGRAM):   end;
+22180     +   end;
+22181     +   else if _dm5 = '12-14'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm5 = '24-26' then do;
+MPRINT(EM_DIAGRAM):   inv_nodes24_26 = 1;
+22182     +      inv_nodes12_14 = 1;
+MPRINT(EM_DIAGRAM):   end;
+22183     +   end;
+22184     +   else if _dm5 = '24-26'  then do;
+MPRINT(EM_DIAGRAM):   else do;
+MPRINT(EM_DIAGRAM):   inv_nodes0_2 = .;
+22185     +      inv_nodes24_26 = 1;
+MPRINT(EM_DIAGRAM):   inv_nodes12_14 = .;
+22186     +   end;
+MPRINT(EM_DIAGRAM):   inv_nodes15_17 = .;
+22187     +   else do;
+MPRINT(EM_DIAGRAM):   inv_nodes24_26 = .;
+MPRINT(EM_DIAGRAM):   inv_nodes3_5 = .;
+22188     +      inv_nodes0_2 = .;
+MPRINT(EM_DIAGRAM):   inv_nodes6_8 = .;
+22189     +      inv_nodes12_14 = .;
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+22190     +      inv_nodes15_17 = .;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22191     +      inv_nodes24_26 = .;
+MPRINT(EM_DIAGRAM):   end;
+22192     +      inv_nodes3_5 = .;
+MPRINT(EM_DIAGRAM):   end;
+22193     +      inv_nodes6_8 = .;
+22194     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for irradiat ;
+22195     +      _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   drop irradiatno ;
+22196     +   end;
+MPRINT(EM_DIAGRAM):   if missing( irradiat ) then do;
+22197     +end;
+MPRINT(EM_DIAGRAM):   irradiatno = .;
+22198     +
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+22199     +*** Generate dummy variables for irradiat ;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22200     +drop irradiatno ;
+MPRINT(EM_DIAGRAM):   end;
+22201     +if missing( irradiat ) then do;
+22202     +   irradiatno = .;
+MPRINT(EM_DIAGRAM):   else do;
+22203     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   length _dm3 $ 3;
+22204     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   drop _dm3 ;
+22205     +end;
+MPRINT(EM_DIAGRAM):   _dm3 = put( irradiat , $3. );
+22206     +else do;
+22207     +   length _dm3 $ 3; drop _dm3 ;
+MPRINT(DMNORMIP):   call dmnorm(_dm3,
+22208     +   _dm3 = put( irradiat , $3. );
+22209     +   %DMNORMIP( _dm3 )
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMIP):  );
+MPRINT(EM_DIAGRAM):   if _dm3 = 'NO' then do;
+MPRINT(EM_DIAGRAM):   irradiatno = 1;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if _dm3 = 'YES' then do;
+22210     +   if _dm3 = 'NO'  then do;
+MPRINT(EM_DIAGRAM):   irradiatno = -1;
+22211     +      irradiatno = 1;
+MPRINT(EM_DIAGRAM):   end;
+22212     +   end;
+22213     +   else if _dm3 = 'YES'  then do;
+MPRINT(EM_DIAGRAM):   else do;
+MPRINT(EM_DIAGRAM):   irradiatno = .;
+22214     +      irradiatno = -1;
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+22215     +   end;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22216     +   else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   end;
+22217     +      irradiatno = .;
+22218     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for menopause ;
+22219     +      _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   drop menopausege40 menopauselt40 ;
+22220     +   end;
+MPRINT(EM_DIAGRAM):   if missing( menopause ) then do;
+22221     +end;
+MPRINT(EM_DIAGRAM):   menopausege40 = .;
+22222     +
+MPRINT(EM_DIAGRAM):   menopauselt40 = .;
+22223     +*** Generate dummy variables for menopause ;
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+22224     +drop menopausege40 menopauselt40 ;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22225     +if missing( menopause ) then do;
+MPRINT(EM_DIAGRAM):   end;
+22226     +   menopausege40 = .;
+22227     +   menopauselt40 = .;
+MPRINT(EM_DIAGRAM):   else do;
+22228     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   length _dm7 $ 7;
+22229     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   drop _dm7 ;
+22230     +end;
+MPRINT(EM_DIAGRAM):   _dm7 = put( menopause , $7. );
+22231     +else do;
+22232     +   length _dm7 $ 7; drop _dm7 ;
+MPRINT(DMNORMIP):   call dmnorm(_dm7,
+22233     +   _dm7 = put( menopause , $7. );
+22234     +   %DMNORMIP( _dm7 )
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMIP):  );
+MPRINT(EM_DIAGRAM):   if _dm7 = 'PREMENO' then do;
+MPRINT(EM_DIAGRAM):   menopausege40 = -1;
+MPRINT(EM_DIAGRAM):   menopauselt40 = -1;
+MPRINT(EM_DIAGRAM):   end;
+22235     +   if _dm7 = 'PREMENO'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm7 = 'GE40' then do;
+22236     +      menopausege40 = -1;
+MPRINT(EM_DIAGRAM):   menopausege40 = 1;
+22237     +      menopauselt40 = -1;
+MPRINT(EM_DIAGRAM):   menopauselt40 = 0;
+22238     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22239     +   else if _dm7 = 'GE40'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm7 = 'LT40' then do;
+22240     +      menopausege40 = 1;
+MPRINT(EM_DIAGRAM):   menopausege40 = 0;
+22241     +      menopauselt40 = 0;
+MPRINT(EM_DIAGRAM):   menopauselt40 = 1;
+22242     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22243     +   else if _dm7 = 'LT40'  then do;
+MPRINT(EM_DIAGRAM):   else do;
+22244     +      menopausege40 = 0;
+MPRINT(EM_DIAGRAM):   menopausege40 = .;
+22245     +      menopauselt40 = 1;
+MPRINT(EM_DIAGRAM):   menopauselt40 = .;
+22246     +   end;
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+22247     +   else do;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   end;
+22248     +      menopausege40 = .;
+MPRINT(EM_DIAGRAM):   end;
+22249     +      menopauselt40 = .;
+22250     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for node_caps ;
+22251     +      _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   drop node_caps_ node_capsno ;
+22252     +   end;
+MPRINT(EM_DIAGRAM):   if missing( node_caps ) then do;
+22253     +end;
+MPRINT(EM_DIAGRAM):   node_caps_ = .;
+22254     +
+MPRINT(EM_DIAGRAM):   node_capsno = .;
+22255     +*** Generate dummy variables for node_caps ;
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+22256     +drop node_caps_ node_capsno ;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22257     +if missing( node_caps ) then do;
+MPRINT(EM_DIAGRAM):   end;
+22258     +   node_caps_ = .;
+22259     +   node_capsno = .;
+MPRINT(EM_DIAGRAM):   else do;
+22260     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   length _dm3 $ 3;
+22261     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   drop _dm3 ;
+22262     +end;
+22263     +else do;
+22264     +   length _dm3 $ 3; drop _dm3 ;
+MPRINT(DMNORMCP):   _dm3=dmnorm(node_caps,
+22265     +   %DMNORMCP( node_caps , _dm3 )
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMCP):  );
+MPRINT(EM_DIAGRAM):   if _dm3 = 'NO' then do;
+MPRINT(EM_DIAGRAM):   node_caps_ = 0;
+MPRINT(EM_DIAGRAM):   node_capsno = 1;
+MPRINT(EM_DIAGRAM):   end;
+22266     +   if _dm3 = 'NO'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm3 = 'YES' then do;
+22267     +      node_caps_ = 0;
+MPRINT(EM_DIAGRAM):   node_caps_ = -1;
+22268     +      node_capsno = 1;
+MPRINT(EM_DIAGRAM):   node_capsno = -1;
+22269     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22270     +   else if _dm3 = 'YES'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm3 = '?' then do;
+22271     +      node_caps_ = -1;
+MPRINT(EM_DIAGRAM):   node_caps_ = 1;
+22272     +      node_capsno = -1;
+MPRINT(EM_DIAGRAM):   node_capsno = 0;
+22273     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22274     +   else if _dm3 = '?'  then do;
+MPRINT(EM_DIAGRAM):   else do;
+22275     +      node_caps_ = 1;
+MPRINT(EM_DIAGRAM):   node_caps_ = .;
+22276     +      node_capsno = 0;
+MPRINT(EM_DIAGRAM):   node_capsno = .;
+22277     +   end;
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+22278     +   else do;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   end;
+22279     +      node_caps_ = .;
+MPRINT(EM_DIAGRAM):   end;
+22280     +      node_capsno = .;
+22281     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for tumor_size ;
+22282     +      _DM_BAD = 1;
+22283     +   end;
+22284     +end;
+MPRINT(EM_DIAGRAM):   drop tumor_size0_4 tumor_size10_14 tumor_size15_19 tumor_size20_24 tumor_size25_29 tumor_size30_34 tumor_size35_39 tumor_size40_44 tumor_size45_49 tumor_size5_9 ;
+22285     +
+MPRINT(EM_DIAGRAM):   *** encoding is sparse, initialize to zero;
+22286     +*** Generate dummy variables for tumor_size ;
+MPRINT(EM_DIAGRAM):   tumor_size0_4 = 0;
+22287     +drop tumor_size0_4 tumor_size10_14 tumor_size15_19 tumor_size20_24
+MPRINT(EM_DIAGRAM):   tumor_size10_14 = 0;
+22288     +        tumor_size25_29 tumor_size30_34 tumor_size35_39 tumor_size40_44
+MPRINT(EM_DIAGRAM):   tumor_size15_19 = 0;
+22289     +        tumor_size45_49 tumor_size5_9 ;
+MPRINT(EM_DIAGRAM):   tumor_size20_24 = 0;
+22290     +*** encoding is sparse, initialize to zero;
+MPRINT(EM_DIAGRAM):   tumor_size25_29 = 0;
+22291     +tumor_size0_4 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size30_34 = 0;
+22292     +tumor_size10_14 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size35_39 = 0;
+22293     +tumor_size15_19 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size40_44 = 0;
+22294     +tumor_size20_24 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size45_49 = 0;
+22295     +tumor_size25_29 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size5_9 = 0;
+22296     +tumor_size30_34 = 0;
+MPRINT(EM_DIAGRAM):   if missing( tumor_size ) then do;
+22297     +tumor_size35_39 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size0_4 = .;
+22298     +tumor_size40_44 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size10_14 = .;
+22299     +tumor_size45_49 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size15_19 = .;
+22300     +tumor_size5_9 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size20_24 = .;
+22301     +if missing( tumor_size ) then do;
+MPRINT(EM_DIAGRAM):   tumor_size25_29 = .;
+22302     +   tumor_size0_4 = .;
+MPRINT(EM_DIAGRAM):   tumor_size30_34 = .;
+22303     +   tumor_size10_14 = .;
+MPRINT(EM_DIAGRAM):   tumor_size35_39 = .;
+22304     +   tumor_size15_19 = .;
+MPRINT(EM_DIAGRAM):   tumor_size40_44 = .;
+22305     +   tumor_size20_24 = .;
+MPRINT(EM_DIAGRAM):   tumor_size45_49 = .;
+22306     +   tumor_size25_29 = .;
+MPRINT(EM_DIAGRAM):   tumor_size5_9 = .;
+22307     +   tumor_size30_34 = .;
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+22308     +   tumor_size35_39 = .;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22309     +   tumor_size40_44 = .;
+MPRINT(EM_DIAGRAM):   end;
+22310     +   tumor_size45_49 = .;
+22311     +   tumor_size5_9 = .;
+MPRINT(EM_DIAGRAM):   else do;
+22312     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   length _dm5 $ 5;
+22313     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   drop _dm5 ;
+22314     +end;
+22315     +else do;
+22316     +   length _dm5 $ 5; drop _dm5 ;
+MPRINT(DMNORMCP):   _dm5=dmnorm(tumor_size,
+22317     +   %DMNORMCP( tumor_size , _dm5 )
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMCP):  );
+MPRINT(EM_DIAGRAM):   _dm_find = 0;
+MPRINT(EM_DIAGRAM):   drop _dm_find;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '30-34' then do;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '15-19' then do;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '10-14' then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '0-4' then do;
+22318     +   _dm_find = 0; drop _dm_find;
+MPRINT(EM_DIAGRAM):   tumor_size0_4 = 1;
+22319     +   if _dm5 <= '30-34'  then do;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22320     +      if _dm5 <= '15-19'  then do;
+MPRINT(EM_DIAGRAM):   end;
+22321     +         if _dm5 <= '10-14'  then do;
+22322     +            if _dm5 = '0-4'  then do;
+MPRINT(EM_DIAGRAM):   else do;
+22323     +               tumor_size0_4 = 1;
+MPRINT(EM_DIAGRAM):   if _dm5 = '10-14' then do;
+22324     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   tumor_size10_14 = 1;
+22325     +            end;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22326     +            else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   end;
+22327     +               if _dm5 = '10-14'  then do;
+MPRINT(EM_DIAGRAM):   end;
+22328     +                  tumor_size10_14 = 1;
+22329     +                  _dm_find = 1;
+MPRINT(EM_DIAGRAM):   else do;
+22330     +               end;
+MPRINT(EM_DIAGRAM):   if _dm5 = '15-19' then do;
+22331     +            end;
+MPRINT(EM_DIAGRAM):   tumor_size15_19 = 1;
+22332     +         end;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22333     +         else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   end;
+22334     +            if _dm5 = '15-19'  then do;
+MPRINT(EM_DIAGRAM):   end;
+22335     +               tumor_size15_19 = 1;
+22336     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   else do;
+22337     +            end;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '25-29' then do;
+22338     +         end;
+MPRINT(EM_DIAGRAM):   if _dm5 = '20-24' then do;
+22339     +      end;
+MPRINT(EM_DIAGRAM):   tumor_size20_24 = 1;
+22340     +      else do;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+MPRINT(EM_DIAGRAM):   end;
+22341     +         if _dm5 <= '25-29'  then do;
+22342     +            if _dm5 = '20-24'  then do;
+MPRINT(EM_DIAGRAM):   else do;
+22343     +               tumor_size20_24 = 1;
+MPRINT(EM_DIAGRAM):   if _dm5 = '25-29' then do;
+22344     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   tumor_size25_29 = 1;
+22345     +            end;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22346     +            else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   end;
+22347     +               if _dm5 = '25-29'  then do;
+MPRINT(EM_DIAGRAM):   end;
+22348     +                  tumor_size25_29 = 1;
+22349     +                  _dm_find = 1;
+MPRINT(EM_DIAGRAM):   else do;
+22350     +               end;
+MPRINT(EM_DIAGRAM):   if _dm5 = '30-34' then do;
+22351     +            end;
+MPRINT(EM_DIAGRAM):   tumor_size30_34 = 1;
+22352     +         end;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22353     +         else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   end;
+22354     +            if _dm5 = '30-34'  then do;
+MPRINT(EM_DIAGRAM):   end;
+22355     +               tumor_size30_34 = 1;
+MPRINT(EM_DIAGRAM):   end;
+22356     +               _dm_find = 1;
+22357     +            end;
+MPRINT(EM_DIAGRAM):   else do;
+22358     +         end;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '45-49' then do;
+22359     +      end;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '40-44' then do;
+22360     +   end;
+MPRINT(EM_DIAGRAM):   if _dm5 = '35-39' then do;
+22361     +   else do;
+MPRINT(EM_DIAGRAM):   tumor_size35_39 = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22362     +      if _dm5 <= '45-49'  then do;
+MPRINT(EM_DIAGRAM):   end;
+22363     +         if _dm5 <= '40-44'  then do;
+22364     +            if _dm5 = '35-39'  then do;
+MPRINT(EM_DIAGRAM):   else do;
+22365     +               tumor_size35_39 = 1;
+MPRINT(EM_DIAGRAM):   if _dm5 = '40-44' then do;
+22366     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   tumor_size40_44 = 1;
+22367     +            end;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22368     +            else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   end;
+22369     +               if _dm5 = '40-44'  then do;
+MPRINT(EM_DIAGRAM):   end;
+22370     +                  tumor_size40_44 = 1;
+22371     +                  _dm_find = 1;
+MPRINT(EM_DIAGRAM):   else do;
+22372     +               end;
+MPRINT(EM_DIAGRAM):   if _dm5 = '45-49' then do;
+22373     +            end;
+MPRINT(EM_DIAGRAM):   tumor_size45_49 = 1;
+22374     +         end;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22375     +         else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   end;
+22376     +            if _dm5 = '45-49'  then do;
+MPRINT(EM_DIAGRAM):   end;
+22377     +               tumor_size45_49 = 1;
+22378     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   else do;
+22379     +            end;
+MPRINT(EM_DIAGRAM):   if _dm5 = '5-9' then do;
+22380     +         end;
+MPRINT(EM_DIAGRAM):   tumor_size5_9 = 1;
+22381     +      end;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22382     +      else do;
+MPRINT(EM_DIAGRAM):   end;
+22383     +         if _dm5 = '5-9'  then do;
+MPRINT(EM_DIAGRAM):   else do;
+22384     +            tumor_size5_9 = 1;
+MPRINT(EM_DIAGRAM):   if _dm5 = '50-54' then do;
+22385     +            _dm_find = 1;
+MPRINT(EM_DIAGRAM):   tumor_size0_4 = -1;
+22386     +         end;
+MPRINT(EM_DIAGRAM):   tumor_size10_14 = -1;
+22387     +         else do;
+MPRINT(EM_DIAGRAM):   tumor_size15_19 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size20_24 = -1;
+22388     +            if _dm5 = '50-54'  then do;
+MPRINT(EM_DIAGRAM):   tumor_size25_29 = -1;
+22389     +               tumor_size0_4 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size30_34 = -1;
+22390     +               tumor_size10_14 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size35_39 = -1;
+22391     +               tumor_size15_19 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size40_44 = -1;
+22392     +               tumor_size20_24 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size45_49 = -1;
+22393     +               tumor_size25_29 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size5_9 = -1;
+22394     +               tumor_size30_34 = -1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22395     +               tumor_size35_39 = -1;
+MPRINT(EM_DIAGRAM):   end;
+22396     +               tumor_size40_44 = -1;
+MPRINT(EM_DIAGRAM):   end;
+22397     +               tumor_size45_49 = -1;
+MPRINT(EM_DIAGRAM):   end;
+22398     +               tumor_size5_9 = -1;
+MPRINT(EM_DIAGRAM):   end;
+22399     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   if not _dm_find then do;
+22400     +            end;
+MPRINT(EM_DIAGRAM):   tumor_size0_4 = .;
+22401     +         end;
+MPRINT(EM_DIAGRAM):   tumor_size10_14 = .;
+22402     +      end;
+MPRINT(EM_DIAGRAM):   tumor_size15_19 = .;
+22403     +   end;
+MPRINT(EM_DIAGRAM):   tumor_size20_24 = .;
+22404     +   if not _dm_find then do;
+MPRINT(EM_DIAGRAM):   tumor_size25_29 = .;
+22405     +      tumor_size0_4 = .;
+MPRINT(EM_DIAGRAM):   tumor_size30_34 = .;
+22406     +      tumor_size10_14 = .;
+MPRINT(EM_DIAGRAM):   tumor_size35_39 = .;
+22407     +      tumor_size15_19 = .;
+MPRINT(EM_DIAGRAM):   tumor_size40_44 = .;
+22408     +      tumor_size20_24 = .;
+MPRINT(EM_DIAGRAM):   tumor_size45_49 = .;
+22409     +      tumor_size25_29 = .;
+MPRINT(EM_DIAGRAM):   tumor_size5_9 = .;
+22410     +      tumor_size30_34 = .;
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+22411     +      tumor_size35_39 = .;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22412     +      tumor_size40_44 = .;
+MPRINT(EM_DIAGRAM):   end;
+22413     +      tumor_size45_49 = .;
+MPRINT(EM_DIAGRAM):   end;
+22414     +      tumor_size5_9 = .;
+22415     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   *** *************************;
+22416     +      _DM_BAD = 1;
+22417     +   end;
+MPRINT(EM_DIAGRAM):   *** Checking missing input Interval *** *************************;
+22418     +end;
+22419     +
+22420     +*** *************************;
+MPRINT(EM_DIAGRAM):   IF NMISS( deg_malig ) THEN DO;
+22421     +*** Checking missing input Interval
+MPRINT(EM_DIAGRAM):   SUBSTR(_WARN_, 1, 1) = 'M';
+22422     +*** *************************;
+22423     +
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22424     +IF NMISS(
+MPRINT(EM_DIAGRAM):   END;
+22425     +   deg_malig   ) THEN DO;
+MPRINT(EM_DIAGRAM):   *** *************************;
+22426     +   SUBSTR(_WARN_, 1, 1) = 'M';
+MPRINT(EM_DIAGRAM):   *** Writing the Node intvl ;
+22427     +
+MPRINT(EM_DIAGRAM):   *** *************************;
+22428     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   IF _DM_BAD EQ 0 THEN DO;
+22429     +END;
+MPRINT(EM_DIAGRAM):   S_deg_malig = -2.78253429049127 + 1.35716746031314 * deg_malig ;
+22430     +*** *************************;
+MPRINT(EM_DIAGRAM):   END;
+22431     +*** Writing the Node intvl ;
+22432     +*** *************************;
+MPRINT(EM_DIAGRAM):   ELSE DO;
+22433     +IF _DM_BAD EQ 0 THEN DO;
+MPRINT(EM_DIAGRAM):   IF MISSING( deg_malig ) THEN S_deg_malig = . ;
+22434     +   S_deg_malig  =    -2.78253429049127 +     1.35716746031314 * deg_malig ;
+22435     +END;
+22436     +ELSE DO;
+MPRINT(EM_DIAGRAM):   ELSE S_deg_malig = -2.78253429049127 + 1.35716746031314 * deg_malig ;
+MPRINT(EM_DIAGRAM):   END;
+22437     +   IF MISSING( deg_malig ) THEN S_deg_malig  = . ;
+MPRINT(EM_DIAGRAM):   *** *************************;
+22438     +   ELSE S_deg_malig  =    -2.78253429049127 +     1.35716746031314 * deg_malig
+MPRINT(EM_DIAGRAM):   *** Writing the Node nom ;
+MPRINT(EM_DIAGRAM):   *** *************************;
+22439     +         ;
+MPRINT(EM_DIAGRAM):   *** *************************;
+22440     +END;
+MPRINT(EM_DIAGRAM):   *** Writing the Node H1 ;
+22441     +*** *************************;
+MPRINT(EM_DIAGRAM):   *** *************************;
+22442     +*** Writing the Node nom ;
+MPRINT(EM_DIAGRAM):   IF _DM_BAD EQ 0 THEN DO;
+22443     +*** *************************;
+MPRINT(EM_DIAGRAM):   H11 = -2.74796971637258 * S_deg_malig ;
+22444     +*** *************************;
+MPRINT(EM_DIAGRAM):   H12 = -1.14470380880618 * S_deg_malig ;
+22445     +*** Writing the Node H1 ;
+MPRINT(EM_DIAGRAM):   H13 = -0.05499579882751 * S_deg_malig ;
+22446     +*** *************************;
+22447     +IF _DM_BAD EQ 0 THEN DO;
+22448     +   H11  =    -2.74796971637258 * S_deg_malig ;
+22449     +   H12  =    -1.14470380880618 * S_deg_malig ;
+22450     +   H13  =    -0.05499579882751 * S_deg_malig ;
+22451     +   H11  = H11  +    -0.29476277137846 * age20_29  +      -0.010366167334 *
+22452     +        age30_39  +    -0.17555609047413 * age40_49  +     0.11413435552706 *
+22453     +        age50_59  +    -0.06117744625175 * age60_69  +     -0.5368742297391 *
+22454     +        breastleft  +    -0.24218262404951 * breast_quad_
+22455     +          +     0.06068411466854 * breast_quadcentral
+22456     +          +     0.97640815123223 * breast_quadleft_low
+22457     +          +     0.67644175699563 * breast_quadleft_up
+22458     +          +     0.17789865004419 * breast_quadright_low
+22459     +          +     2.55134897365733 * inv_nodes0_2  +     0.21424158811054 *
+22460     +        inv_nodes12_14  +     0.47820995623683 * inv_nodes15_17
+22461     +          +      0.2622943817266 * inv_nodes24_26  +     0.12643888087769 *
+22462     +        inv_nodes3_5  +     0.84201931474903 * inv_nodes6_8
+22463     +          +     1.04760396339187 * irradiatno  +     0.07463094979299 *
+22464     +        menopausege40  +    -0.44581886051603 * menopauselt40
+22465     +          +    -0.87854603983125 * node_caps_  +      0.4570771968374 *
+22466     +        node_capsno  +     0.37381802079042 * tumor_size0_4
+22467     +          +     0.85670494080923 * tumor_size10_14  +     0.44903004755901 *
+MPRINT(EM_DIAGRAM):   H11 = H11 + -0.29476277137846 * age20_29 + -0.010366167334 * age30_39 + -0.17555609047413 * age40_49 + 0.11413435552706 * age50_59 + -0.06117744625175 * age60_69 + -0.5368742297391 * breastleft + -0.24218262404951 * breast_quad_ + 
+0.06068411466854 * breast_quadcentral + 0.97640815123223 * breast_quadleft_low + 0.67644175699563 * breast_quadleft_up + 0.17789865004419 * breast_quadright_low + 2.55134897365733 * inv_nodes0_2 + 0.21424158811054 * inv_nodes12_14 + 0.47820995623683 * 
+inv_nodes15_17 + 0.2622943817266 * inv_nodes24_26 + 0.12643888087769 * inv_nodes3_5 + 0.84201931474903 * inv_nodes6_8 + 1.04760396339187 * irradiatno + 0.07463094979299 * menopausege40 + -0.44581886051603 * menopauselt40 + -0.87854603983125 * node_caps_ + 
+0.4570771968374 * node_capsno + 0.37381802079042 * tumor_size0_4 + 0.85670494080923 * tumor_size10_14 + 0.44903004755901 * tumor_size15_19 + -0.17074053785079 * tumor_size20_24 + 0.06170619904789 * tumor_size25_29 + -0.59125038030471 * tumor_size30_34 + 
+0.83829482457373 * tumor_size35_39 + 0.62726406774169 * tumor_size40_44 + -0.1516346314299 * tumor_size45_49 + 0.52677539133351 * tumor_size5_9 ;
+22468     +        tumor_size15_19  +    -0.17074053785079 * tumor_size20_24
+22469     +          +     0.06170619904789 * tumor_size25_29  +    -0.59125038030471 *
+22470     +        tumor_size30_34  +     0.83829482457373 * tumor_size35_39
+22471     +          +     0.62726406774169 * tumor_size40_44  +     -0.1516346314299 *
+22472     +        tumor_size45_49  +     0.52677539133351 * tumor_size5_9 ;
+22473     +   H12  = H12  +     0.13027205331591 * age20_29  +    -0.06449783231378 *
+22474     +        age30_39  +     0.05824555950222 * age40_49  +     0.59985459190818 *
+22475     +        age50_59  +    -0.09738234999184 * age60_69  +     -1.1326563834081 *
+22476     +        breastleft  +    -0.09133694414179 * breast_quad_
+22477     +          +     0.28807861638446 * breast_quadcentral
+22478     +          +     0.59779800988374 * breast_quadleft_low
+22479     +          +     1.55322081055081 * breast_quadleft_up
+22480     +          +    -0.90745863860562 * breast_quadright_low
+22481     +          +      1.5776159015562 * inv_nodes0_2  +    -0.78963665052233 *
+22482     +        inv_nodes12_14  +    -0.10914927602566 * inv_nodes15_17
+22483     +          +      -0.287641916432 * inv_nodes24_26  +    -0.37759361721497 *
+22484     +        inv_nodes3_5  +    -0.89487912276378 * inv_nodes6_8
+22485     +          +      1.2533273720272 * irradiatno  +    -0.50422727076849 *
+22486     +        menopausege40  +    -0.63949610800281 * menopauselt40
+22487     +          +    -0.32842346590983 * node_caps_  +      0.1614812996979 *
+22488     +        node_capsno  +     0.15444034413128 * tumor_size0_4
+22489     +          +     0.28921143447212 * tumor_size10_14  +     0.93609534347786 *
+MPRINT(EM_DIAGRAM):   H12 = H12 + 0.13027205331591 * age20_29 + -0.06449783231378 * age30_39 + 0.05824555950222 * age40_49 + 0.59985459190818 * age50_59 + -0.09738234999184 * age60_69 + -1.1326563834081 * breastleft + -0.09133694414179 * breast_quad_ + 
+0.28807861638446 * breast_quadcentral + 0.59779800988374 * breast_quadleft_low + 1.55322081055081 * breast_quadleft_up + -0.90745863860562 * breast_quadright_low + 1.5776159015562 * inv_nodes0_2 + -0.78963665052233 * inv_nodes12_14 + -0.10914927602566 * 
+inv_nodes15_17 + -0.287641916432 * inv_nodes24_26 + -0.37759361721497 * inv_nodes3_5 + -0.89487912276378 * inv_nodes6_8 + 1.2533273720272 * irradiatno + -0.50422727076849 * menopausege40 + -0.63949610800281 * menopauselt40 + -0.32842346590983 * node_caps_ 
++ 0.1614812996979 * node_capsno + 0.15444034413128 * tumor_size0_4 + 0.28921143447212 * tumor_size10_14 + 0.93609534347786 * tumor_size15_19 + -0.74160696513512 * tumor_size20_24 + -0.19349501615176 * tumor_size25_29 + 0.1936345135719 * tumor_size30_34 + 
+0.72690837246592 * tumor_size35_39 + 0.1908875766776 * tumor_size40_44 + -0.11883017715484 * tumor_size45_49 + -0.13109284581539 * tumor_size5_9 ;
+22490     +        tumor_size15_19  +    -0.74160696513512 * tumor_size20_24
+22491     +          +    -0.19349501615176 * tumor_size25_29  +      0.1936345135719 *
+22492     +        tumor_size30_34  +     0.72690837246592 * tumor_size35_39
+22493     +          +      0.1908875766776 * tumor_size40_44  +    -0.11883017715484 *
+22494     +        tumor_size45_49  +    -0.13109284581539 * tumor_size5_9 ;
+22495     +   H13  = H13  +     0.36211839764495 * age20_29  +     0.84571236618358 *
+22496     +        age30_39  +    -0.11526347756118 * age40_49  +    -0.04128901011994 *
+22497     +        age50_59  +     1.68133643204135 * age60_69  +     0.00813386538131 *
+22498     +        breastleft  +     0.53916416059169 * breast_quad_
+22499     +          +    -0.08864316260341 * breast_quadcentral
+22500     +          +     0.82661415499999 * breast_quadleft_low
+22501     +          +     0.71121038673087 * breast_quadleft_up
+22502     +          +    -0.82432838124419 * breast_quadright_low
+22503     +          +     0.17248835987059 * inv_nodes0_2  +     0.64053633216674 *
+22504     +        inv_nodes12_14  +     0.46832383814205 * inv_nodes15_17
+22505     +          +     0.34052933199292 * inv_nodes24_26  +     0.51774207100072 *
+22506     +        inv_nodes3_5  +     0.22081734421893 * inv_nodes6_8
+22507     +          +     0.33158040157428 * irradiatno  +    -0.33994674936188 *
+22508     +        menopausege40  +    -0.23106138538014 * menopauselt40
+22509     +          +    -0.82389546223861 * node_caps_  +    -0.12001895544508 *
+22510     +        node_capsno  +    -0.91622770269526 * tumor_size0_4
+22511     +          +    -2.52443038295481 * tumor_size10_14  +    -1.02411778324248 *
+MPRINT(EM_DIAGRAM):   H13 = H13 + 0.36211839764495 * age20_29 + 0.84571236618358 * age30_39 + -0.11526347756118 * age40_49 + -0.04128901011994 * age50_59 + 1.68133643204135 * age60_69 + 0.00813386538131 * breastleft + 0.53916416059169 * breast_quad_ + 
+-0.08864316260341 * breast_quadcentral + 0.82661415499999 * breast_quadleft_low + 0.71121038673087 * breast_quadleft_up + -0.82432838124419 * breast_quadright_low + 0.17248835987059 * inv_nodes0_2 + 0.64053633216674 * inv_nodes12_14 + 0.46832383814205 * 
+inv_nodes15_17 + 0.34052933199292 * inv_nodes24_26 + 0.51774207100072 * inv_nodes3_5 + 0.22081734421893 * inv_nodes6_8 + 0.33158040157428 * irradiatno + -0.33994674936188 * menopausege40 + -0.23106138538014 * menopauselt40 + -0.82389546223861 * node_caps_ 
++ -0.12001895544508 * node_capsno + -0.91622770269526 * tumor_size0_4 + -2.52443038295481 * tumor_size10_14 + -1.02411778324248 * tumor_size15_19 + 1.98266427103372 * tumor_size20_24 + 0.64855674824922 * tumor_size25_29 + 0.40177088900283 * 
+tumor_size30_34 + -0.3840784388992 * tumor_size35_39 + -1.50455217684477 * tumor_size40_44 + 0.95362832752501 * tumor_size45_49 + -0.76716804997565 * tumor_size5_9 ;
+22512     +        tumor_size15_19  +     1.98266427103372 * tumor_size20_24
+MPRINT(EM_DIAGRAM):   H11 = 1.16497275748927 + H11 ;
+22513     +          +     0.64855674824922 * tumor_size25_29  +     0.40177088900283 *
+MPRINT(EM_DIAGRAM):   H12 = 3.06145127542367 + H12 ;
+22514     +        tumor_size30_34  +     -0.3840784388992 * tumor_size35_39
+MPRINT(EM_DIAGRAM):   H13 = 1.14117810063498 + H13 ;
+22515     +          +    -1.50455217684477 * tumor_size40_44  +     0.95362832752501 *
+MPRINT(EM_DIAGRAM):   H11 = TANH(H11 );
+22516     +        tumor_size45_49  +    -0.76716804997565 * tumor_size5_9 ;
+MPRINT(EM_DIAGRAM):   H12 = TANH(H12 );
+22517     +   H11  =     1.16497275748927 + H11 ;
+MPRINT(EM_DIAGRAM):   H13 = TANH(H13 );
+22518     +   H12  =     3.06145127542367 + H12 ;
+MPRINT(EM_DIAGRAM):   END;
+22519     +   H13  =     1.14117810063498 + H13 ;
+22520     +   H11  = TANH(H11 );
+MPRINT(EM_DIAGRAM):   ELSE DO;
+22521     +   H12  = TANH(H12 );
+MPRINT(EM_DIAGRAM):   H11 = .;
+22522     +   H13  = TANH(H13 );
+MPRINT(EM_DIAGRAM):   H12 = .;
+22523     +END;
+MPRINT(EM_DIAGRAM):   H13 = .;
+22524     +ELSE DO;
+MPRINT(EM_DIAGRAM):   END;
+MPRINT(EM_DIAGRAM):   *** *************************;
+22525     +   H11  = .;
+MPRINT(EM_DIAGRAM):   *** Writing the Node Class ;
+22526     +   H12  = .;
+MPRINT(EM_DIAGRAM):   *** *************************;
+22527     +   H13  = .;
+22528     +END;
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for Class ;
+22529     +*** *************************;
+MPRINT(EM_DIAGRAM):   drop Classrecurrence_events Classno_recurrence_events ;
+22530     +*** Writing the Node Class ;
+MPRINT(EM_DIAGRAM):   label F_Class = 'From: Class' ;
+22531     +*** *************************;
+22532     +
+MPRINT(EM_DIAGRAM):   length F_Class $ 20;
+22533     +*** Generate dummy variables for Class ;
+22534     +drop Classrecurrence_events Classno_recurrence_events ;
+MPRINT(EM_DIAGRAM):   F_Class = put( Class , $20. );
+22535     +label F_Class = 'From: Class' ;
+22536     +length F_Class $ 20;
+MPRINT(DMNORMIP):   call dmnorm(F_Class,
+22537     +F_Class = put( Class , $20. );
+22538     +%DMNORMIP( F_Class )
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMIP):  );
+MPRINT(EM_DIAGRAM):   if missing( Class ) then do;
+MPRINT(EM_DIAGRAM):   Classrecurrence_events = .;
+MPRINT(EM_DIAGRAM):   Classno_recurrence_events = .;
+MPRINT(EM_DIAGRAM):   end;
+22539     +if missing( Class ) then do;
+MPRINT(EM_DIAGRAM):   else do;
+22540     +   Classrecurrence_events = .;
+MPRINT(EM_DIAGRAM):   if F_Class = 'NO-RECURRENCE-EVENTS' then do;
+22541     +   Classno_recurrence_events = .;
+MPRINT(EM_DIAGRAM):   Classrecurrence_events = 0;
+22542     +end;
+MPRINT(EM_DIAGRAM):   Classno_recurrence_events = 1;
+22543     +else do;
+MPRINT(EM_DIAGRAM):   end;
+22544     +   if F_Class = 'NO-RECURRENCE-EVENTS'  then do;
+MPRINT(EM_DIAGRAM):   else if F_Class = 'RECURRENCE-EVENTS' then do;
+22545     +      Classrecurrence_events = 0;
+MPRINT(EM_DIAGRAM):   Classrecurrence_events = 1;
+22546     +      Classno_recurrence_events = 1;
+MPRINT(EM_DIAGRAM):   Classno_recurrence_events = 0;
+22547     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22548     +   else if F_Class = 'RECURRENCE-EVENTS'  then do;
+MPRINT(EM_DIAGRAM):   else do;
+22549     +      Classrecurrence_events = 1;
+MPRINT(EM_DIAGRAM):   Classrecurrence_events = .;
+22550     +      Classno_recurrence_events = 0;
+MPRINT(EM_DIAGRAM):   Classno_recurrence_events = .;
+22551     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22552     +   else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   IF _DM_BAD EQ 0 THEN DO;
+22553     +      Classrecurrence_events = .;
+22554     +      Classno_recurrence_events = .;
+MPRINT(EM_DIAGRAM):   P_Classrecurrence_events = -4.90336136114846 * H11 + -13.4892200433884 * H12 + 16.7487792253409 * H13 ;
+22555     +   end;
+22556     +end;
+MPRINT(EM_DIAGRAM):   P_Classrecurrence_events = 0.57881101949988 + P_Classrecurrence_events ;
+22557     +IF _DM_BAD EQ 0 THEN DO;
+MPRINT(EM_DIAGRAM):   P_Classno_recurrence_events = 0;
+22558     +   P_Classrecurrence_events  =    -4.90336136114846 * H11
+MPRINT(EM_DIAGRAM):   _MAX_ = MAX (P_Classrecurrence_events , P_Classno_recurrence_events );
+22559     +          +    -13.4892200433884 * H12  +     16.7487792253409 * H13 ;
+MPRINT(EM_DIAGRAM):   _SUM_ = 0.;
+22560     +   P_Classrecurrence_events  =     0.57881101949988 + P_Classrecurrence_events
+MPRINT(EM_DIAGRAM):   P_Classrecurrence_events = EXP(P_Classrecurrence_events - _MAX_);
+22561     +         ;
+MPRINT(EM_DIAGRAM):   _SUM_ = _SUM_ + P_Classrecurrence_events ;
+22562     +   P_Classno_recurrence_events  = 0;
+MPRINT(EM_DIAGRAM):   P_Classno_recurrence_events = EXP(P_Classno_recurrence_events - _MAX_);
+22563     +   _MAX_ = MAX (P_Classrecurrence_events , P_Classno_recurrence_events );
+MPRINT(EM_DIAGRAM):   _SUM_ = _SUM_ + P_Classno_recurrence_events ;
+22564     +   _SUM_ = 0.;
+MPRINT(EM_DIAGRAM):   P_Classrecurrence_events = P_Classrecurrence_events / _SUM_;
+22565     +   P_Classrecurrence_events  = EXP(P_Classrecurrence_events  - _MAX_);
+MPRINT(EM_DIAGRAM):   P_Classno_recurrence_events = P_Classno_recurrence_events / _SUM_;
+22566     +   _SUM_ = _SUM_ + P_Classrecurrence_events ;
+MPRINT(EM_DIAGRAM):   END;
+22567     +   P_Classno_recurrence_events  = EXP(P_Classno_recurrence_events  - _MAX_);
+22568     +   _SUM_ = _SUM_ + P_Classno_recurrence_events ;
+MPRINT(EM_DIAGRAM):   ELSE DO;
+22569     +   P_Classrecurrence_events  = P_Classrecurrence_events  / _SUM_;
+MPRINT(EM_DIAGRAM):   P_Classrecurrence_events = .;
+22570     +   P_Classno_recurrence_events  = P_Classno_recurrence_events  / _SUM_;
+MPRINT(EM_DIAGRAM):   P_Classno_recurrence_events = .;
+22571     +END;
+MPRINT(EM_DIAGRAM):   END;
+22572     +ELSE DO;
+MPRINT(EM_DIAGRAM):   IF _DM_BAD EQ 1 THEN DO;
+MPRINT(EM_DIAGRAM):   P_Classrecurrence_events = 0.2964824120603;
+22573     +   P_Classrecurrence_events  = .;
+MPRINT(EM_DIAGRAM):   P_Classno_recurrence_events = 0.70351758793969;
+22574     +   P_Classno_recurrence_events  = .;
+MPRINT(EM_DIAGRAM):   END;
+22575     +END;
+MPRINT(EM_DIAGRAM):   *** *****************************;
+22576     +IF _DM_BAD EQ 1 THEN DO;
+MPRINT(EM_DIAGRAM):   *** Writing the Residuals of the Node Class ;
+22577     +   P_Classrecurrence_events  =      0.2964824120603;
+MPRINT(EM_DIAGRAM):   *** ******************************;
+22578     +   P_Classno_recurrence_events  =     0.70351758793969;
+MPRINT(EM_DIAGRAM):   IF MISSING( Classrecurrence_events ) THEN R_Classrecurrence_events = . ;
+22579     +END;
+22580     +*** *****************************;
+22581     +*** Writing the Residuals  of the Node Class ;
+MPRINT(EM_DIAGRAM):   ELSE R_Classrecurrence_events = Classrecurrence_events - P_Classrecurrence_events ;
+22582     +*** ******************************;
+22583     +IF MISSING( Classrecurrence_events ) THEN R_Classrecurrence_events  = . ;
+MPRINT(EM_DIAGRAM):   IF MISSING( Classno_recurrence_events ) THEN R_Classno_recurrence_events = . ;
+22584     +ELSE R_Classrecurrence_events  = Classrecurrence_events  -
+22585     +        P_Classrecurrence_events ;
+MPRINT(EM_DIAGRAM):   ELSE R_Classno_recurrence_events = Classno_recurrence_events - P_Classno_recurrence_events ;
+22586     +IF MISSING( Classno_recurrence_events ) THEN R_Classno_recurrence_events
+MPRINT(EM_DIAGRAM):   *** *************************;
+22587     +          = . ;
+MPRINT(EM_DIAGRAM):   *** Writing the I_Class AND U_Class ;
+22588     +ELSE R_Classno_recurrence_events  = Classno_recurrence_events  -
+MPRINT(EM_DIAGRAM):   *** *************************;
+MPRINT(EM_DIAGRAM):   _MAXP_ = P_Classrecurrence_events ;
+22589     +        P_Classno_recurrence_events ;
+MPRINT(EM_DIAGRAM):   I_Class = "RECURRENCE-EVENTS   " ;
+22590     +*** *************************;
+MPRINT(EM_DIAGRAM):   U_Class = "recurrence-events   " ;
+22591     +*** Writing the I_Class  AND U_Class ;
+MPRINT(EM_DIAGRAM):   IF( _MAXP_ LT P_Classno_recurrence_events ) THEN DO;
+22592     +*** *************************;
+MPRINT(EM_DIAGRAM):   _MAXP_ = P_Classno_recurrence_events ;
+22593     +_MAXP_ = P_Classrecurrence_events ;
+MPRINT(EM_DIAGRAM):   I_Class = "NO-RECURRENCE-EVENTS" ;
+22594     +I_Class  = "RECURRENCE-EVENTS   " ;
+MPRINT(EM_DIAGRAM):   U_Class = "no-recurrence-events" ;
+22595     +U_Class  = "recurrence-events   " ;
+MPRINT(EM_DIAGRAM):   END;
+22596     +IF( _MAXP_ LT P_Classno_recurrence_events  ) THEN DO;
+MPRINT(EM_DIAGRAM):   ********************************;
+22597     +   _MAXP_ = P_Classno_recurrence_events ;
+MPRINT(EM_DIAGRAM):   *** End Scoring Code for Neural;
+22598     +   I_Class  = "NO-RECURRENCE-EVENTS" ;
+MPRINT(EM_DIAGRAM):   ********************************;
+22599     +   U_Class  = "no-recurrence-events" ;
+22600     +END;
+22601     +********************************;
+22602     +*** End Scoring Code for Neural;
+22603     +********************************;
+MPRINT(EM_DIAGRAM):   drop H11 H12 H13 ;
+22604     +drop
+MPRINT(EM_DIAGRAM):   drop S_:;
+22605     +H11
+22606     +H12
+22607     +H13
+22608     +;
+22609     +drop S_:;
+NOTE: %INCLUDE (level 1) ending.
+MPRINT(EM_DIAGRAM):   run;
+22610      run;
+
+NOTE: DATA STEP view saved on file EMWS1.NEURAL_TRAIN.
+NOTE: A stored DATA STEP view cannot run under a different operating system.
+NOTE: View EMWS1.IMPT_TRAIN.VIEW used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      
+NOTE: DATA statement used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.03 seconds
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+22611      quit;
+22612      filename emflow;
+MPRINT(EM_DIAGRAM):   filename emflow;
+NOTE: Fileref EMFLOW has been deassigned.
+22613      filename emflow "C:\Users\RAHUL AGARWAL\Desktop\new\Workspaces\EMWS1\Neural\EMFLOWSCORE.sas";
+MPRINT(EM_DIAGRAM):    filename emflow "C:\Users\RAHUL AGARWAL\Desktop\new\Workspaces\EMWS1\Neural\EMFLOWSCORE.sas";
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Neural: Scoring VALIDATE data;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22614      *------------------------------------------------------------*;
+22615      * Neural: Scoring VALIDATE data;
+22616      *------------------------------------------------------------*;
+22617      data EMWS1.Neural_VALIDATE
+22618      / view=EMWS1.Neural_VALIDATE
+22619      ;
+MPRINT(EM_DIAGRAM):   data EMWS1.Neural_VALIDATE / view=EMWS1.Neural_VALIDATE ;
+22620      set EMWS1.Impt_VALIDATE
+22621      ;
+MPRINT(EM_DIAGRAM):   set EMWS1.Impt_VALIDATE ;
+22622      %inc emflow;
+NOTE: %INCLUDE (level 1) file EMFLOW is file C:\Users\RAHUL AGARWAL\Desktop\new\Workspaces\EMWS1\Neural\EMFLOWSCORE.sas.
+22623     +***********************************;
+MPRINT(EM_DIAGRAM):   ***********************************;
+22624     +*** Begin Scoring Code for Neural;
+MPRINT(EM_DIAGRAM):   *** Begin Scoring Code for Neural;
+22625     +***********************************;
+MPRINT(EM_DIAGRAM):   ***********************************;
+22626     +DROP _DM_BAD _EPS _NOCL_ _MAX_ _MAXP_ _SUM_ _NTRIALS;
+MPRINT(EM_DIAGRAM):   DROP _DM_BAD _EPS _NOCL_ _MAX_ _MAXP_ _SUM_ _NTRIALS;
+22627     + _DM_BAD = 0;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 0;
+22628     + _NOCL_ = .;
+MPRINT(EM_DIAGRAM):   _NOCL_ = .;
+22629     + _MAX_ = .;
+MPRINT(EM_DIAGRAM):   _MAX_ = .;
+22630     + _MAXP_ = .;
+MPRINT(EM_DIAGRAM):   _MAXP_ = .;
+22631     + _SUM_ = .;
+MPRINT(EM_DIAGRAM):   _SUM_ = .;
+22632     + _NTRIALS = .;
+MPRINT(EM_DIAGRAM):   _NTRIALS = .;
+22633     + _EPS =                1E-10;
+MPRINT(EM_DIAGRAM):   _EPS = 1E-10;
+22634     +LENGTH _WARN_ $4
+22635     +      F_Class  $ 20
+22636     +      I_Class  $ 20
+22637     +      U_Class  $ 20
+22638     +;
+MPRINT(EM_DIAGRAM):   LENGTH _WARN_ $4 F_Class $ 20 I_Class $ 20 U_Class $ 20 ;
+22639     +      label S_deg_malig = 'Standard: deg_malig' ;
+MPRINT(EM_DIAGRAM):   label S_deg_malig = 'Standard: deg_malig' ;
+22640     +
+22641     +      label age20_29 = 'Dummy: age=20-29' ;
+MPRINT(EM_DIAGRAM):   label age20_29 = 'Dummy: age=20-29' ;
+22642     +
+22643     +      label age30_39 = 'Dummy: age=30-39' ;
+MPRINT(EM_DIAGRAM):   label age30_39 = 'Dummy: age=30-39' ;
+22644     +
+22645     +      label age40_49 = 'Dummy: age=40-49' ;
+MPRINT(EM_DIAGRAM):   label age40_49 = 'Dummy: age=40-49' ;
+22646     +
+22647     +      label age50_59 = 'Dummy: age=50-59' ;
+MPRINT(EM_DIAGRAM):   label age50_59 = 'Dummy: age=50-59' ;
+22648     +
+22649     +      label age60_69 = 'Dummy: age=60-69' ;
+MPRINT(EM_DIAGRAM):   label age60_69 = 'Dummy: age=60-69' ;
+22650     +
+22651     +      label breastleft = 'Dummy: breast=left' ;
+MPRINT(EM_DIAGRAM):   label breastleft = 'Dummy: breast=left' ;
+22652     +
+22653     +      label breast_quad_ = 'Dummy: breast_quad=?' ;
+MPRINT(EM_DIAGRAM):   label breast_quad_ = 'Dummy: breast_quad=?' ;
+22654     +
+22655     +      label breast_quadcentral = 'Dummy: breast_quad=central' ;
+MPRINT(EM_DIAGRAM):   label breast_quadcentral = 'Dummy: breast_quad=central' ;
+22656     +
+22657     +      label breast_quadleft_low = 'Dummy: breast_quad=left_low' ;
+MPRINT(EM_DIAGRAM):   label breast_quadleft_low = 'Dummy: breast_quad=left_low' ;
+22658     +
+22659     +      label breast_quadleft_up = 'Dummy: breast_quad=left_up' ;
+MPRINT(EM_DIAGRAM):   label breast_quadleft_up = 'Dummy: breast_quad=left_up' ;
+22660     +
+22661     +      label breast_quadright_low = 'Dummy: breast_quad=right_low' ;
+MPRINT(EM_DIAGRAM):   label breast_quadright_low = 'Dummy: breast_quad=right_low' ;
+22662     +
+22663     +      label inv_nodes0_2 = 'Dummy: inv_nodes=0-2' ;
+MPRINT(EM_DIAGRAM):   label inv_nodes0_2 = 'Dummy: inv_nodes=0-2' ;
+22664     +
+22665     +      label inv_nodes12_14 = 'Dummy: inv_nodes=12-14' ;
+MPRINT(EM_DIAGRAM):   label inv_nodes12_14 = 'Dummy: inv_nodes=12-14' ;
+22666     +
+22667     +      label inv_nodes15_17 = 'Dummy: inv_nodes=15-17' ;
+MPRINT(EM_DIAGRAM):   label inv_nodes15_17 = 'Dummy: inv_nodes=15-17' ;
+22668     +
+22669     +      label inv_nodes24_26 = 'Dummy: inv_nodes=24-26' ;
+MPRINT(EM_DIAGRAM):   label inv_nodes24_26 = 'Dummy: inv_nodes=24-26' ;
+22670     +
+22671     +      label inv_nodes3_5 = 'Dummy: inv_nodes=3-5' ;
+MPRINT(EM_DIAGRAM):   label inv_nodes3_5 = 'Dummy: inv_nodes=3-5' ;
+22672     +
+22673     +      label inv_nodes6_8 = 'Dummy: inv_nodes=6-8' ;
+MPRINT(EM_DIAGRAM):   label inv_nodes6_8 = 'Dummy: inv_nodes=6-8' ;
+22674     +
+22675     +      label irradiatno = 'Dummy: irradiat=no' ;
+MPRINT(EM_DIAGRAM):   label irradiatno = 'Dummy: irradiat=no' ;
+22676     +
+22677     +      label menopausege40 = 'Dummy: menopause=ge40' ;
+MPRINT(EM_DIAGRAM):   label menopausege40 = 'Dummy: menopause=ge40' ;
+22678     +
+22679     +      label menopauselt40 = 'Dummy: menopause=lt40' ;
+MPRINT(EM_DIAGRAM):   label menopauselt40 = 'Dummy: menopause=lt40' ;
+22680     +
+22681     +      label node_caps_ = 'Dummy: node_caps=?' ;
+MPRINT(EM_DIAGRAM):   label node_caps_ = 'Dummy: node_caps=?' ;
+22682     +
+22683     +      label node_capsno = 'Dummy: node_caps=no' ;
+MPRINT(EM_DIAGRAM):   label node_capsno = 'Dummy: node_caps=no' ;
+22684     +
+22685     +      label tumor_size0_4 = 'Dummy: tumor_size=0-4' ;
+MPRINT(EM_DIAGRAM):   label tumor_size0_4 = 'Dummy: tumor_size=0-4' ;
+22686     +
+22687     +      label tumor_size10_14 = 'Dummy: tumor_size=10-14' ;
+MPRINT(EM_DIAGRAM):   label tumor_size10_14 = 'Dummy: tumor_size=10-14' ;
+22688     +
+22689     +      label tumor_size15_19 = 'Dummy: tumor_size=15-19' ;
+MPRINT(EM_DIAGRAM):   label tumor_size15_19 = 'Dummy: tumor_size=15-19' ;
+22690     +
+22691     +      label tumor_size20_24 = 'Dummy: tumor_size=20-24' ;
+MPRINT(EM_DIAGRAM):   label tumor_size20_24 = 'Dummy: tumor_size=20-24' ;
+22692     +
+22693     +      label tumor_size25_29 = 'Dummy: tumor_size=25-29' ;
+MPRINT(EM_DIAGRAM):   label tumor_size25_29 = 'Dummy: tumor_size=25-29' ;
+22694     +
+22695     +      label tumor_size30_34 = 'Dummy: tumor_size=30-34' ;
+MPRINT(EM_DIAGRAM):   label tumor_size30_34 = 'Dummy: tumor_size=30-34' ;
+22696     +
+22697     +      label tumor_size35_39 = 'Dummy: tumor_size=35-39' ;
+MPRINT(EM_DIAGRAM):   label tumor_size35_39 = 'Dummy: tumor_size=35-39' ;
+22698     +
+22699     +      label tumor_size40_44 = 'Dummy: tumor_size=40-44' ;
+MPRINT(EM_DIAGRAM):   label tumor_size40_44 = 'Dummy: tumor_size=40-44' ;
+22700     +
+22701     +      label tumor_size45_49 = 'Dummy: tumor_size=45-49' ;
+MPRINT(EM_DIAGRAM):   label tumor_size45_49 = 'Dummy: tumor_size=45-49' ;
+22702     +
+22703     +      label tumor_size5_9 = 'Dummy: tumor_size=5-9' ;
+MPRINT(EM_DIAGRAM):   label tumor_size5_9 = 'Dummy: tumor_size=5-9' ;
+22704     +
+22705     +      label H11 = 'Hidden: H1=1' ;
+MPRINT(EM_DIAGRAM):   label H11 = 'Hidden: H1=1' ;
+22706     +
+22707     +      label H12 = 'Hidden: H1=2' ;
+MPRINT(EM_DIAGRAM):   label H12 = 'Hidden: H1=2' ;
+22708     +
+22709     +      label H13 = 'Hidden: H1=3' ;
+MPRINT(EM_DIAGRAM):   label H13 = 'Hidden: H1=3' ;
+22710     +
+22711     +      label I_Class = 'Into: Class' ;
+MPRINT(EM_DIAGRAM):   label I_Class = 'Into: Class' ;
+22712     +
+22713     +      label F_Class = 'From: Class' ;
+MPRINT(EM_DIAGRAM):   label F_Class = 'From: Class' ;
+22714     +
+22715     +      label U_Class = 'Unnormalized Into: Class' ;
+MPRINT(EM_DIAGRAM):   label U_Class = 'Unnormalized Into: Class' ;
+22716     +
+22717     +      label P_Classrecurrence_events = 'Predicted: Class=recurrence-events' ;
+MPRINT(EM_DIAGRAM):   label P_Classrecurrence_events = 'Predicted: Class=recurrence-events' ;
+22718     +
+22719     +      label R_Classrecurrence_events = 'Residual: Class=recurrence-events' ;
+MPRINT(EM_DIAGRAM):   label R_Classrecurrence_events = 'Residual: Class=recurrence-events' ;
+22720     +
+22721     +      label P_Classno_recurrence_events =
+22722     +'Predicted: Class=no-recurrence-events' ;
+MPRINT(EM_DIAGRAM):   label P_Classno_recurrence_events = 'Predicted: Class=no-recurrence-events' ;
+22723     +
+22724     +      label R_Classno_recurrence_events =
+22725     +'Residual: Class=no-recurrence-events' ;
+MPRINT(EM_DIAGRAM):   label R_Classno_recurrence_events = 'Residual: Class=no-recurrence-events' ;
+22726     +
+22727     +      label  _WARN_ = "Warnings";
+MPRINT(EM_DIAGRAM):   label _WARN_ = "Warnings";
+22728     +
+22729     +*** Generate dummy variables for age ;
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for age ;
+22730     +drop age20_29 age30_39 age40_49 age50_59 age60_69 ;
+MPRINT(EM_DIAGRAM):   drop age20_29 age30_39 age40_49 age50_59 age60_69 ;
+22731     +*** encoding is sparse, initialize to zero;
+MPRINT(EM_DIAGRAM):   *** encoding is sparse, initialize to zero;
+22732     +age20_29 = 0;
+MPRINT(EM_DIAGRAM):   age20_29 = 0;
+22733     +age30_39 = 0;
+MPRINT(EM_DIAGRAM):   age30_39 = 0;
+22734     +age40_49 = 0;
+MPRINT(EM_DIAGRAM):   age40_49 = 0;
+22735     +age50_59 = 0;
+MPRINT(EM_DIAGRAM):   age50_59 = 0;
+22736     +age60_69 = 0;
+MPRINT(EM_DIAGRAM):   age60_69 = 0;
+22737     +if missing( age ) then do;
+MPRINT(EM_DIAGRAM):   if missing( age ) then do;
+22738     +   age20_29 = .;
+MPRINT(EM_DIAGRAM):   age20_29 = .;
+22739     +   age30_39 = .;
+MPRINT(EM_DIAGRAM):   age30_39 = .;
+22740     +   age40_49 = .;
+MPRINT(EM_DIAGRAM):   age40_49 = .;
+22741     +   age50_59 = .;
+MPRINT(EM_DIAGRAM):   age50_59 = .;
+22742     +   age60_69 = .;
+MPRINT(EM_DIAGRAM):   age60_69 = .;
+22743     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+22744     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22745     +end;
+MPRINT(EM_DIAGRAM):   end;
+22746     +else do;
+MPRINT(EM_DIAGRAM):   else do;
+22747     +   length _dm5 $ 5; drop _dm5 ;
+MPRINT(EM_DIAGRAM):   length _dm5 $ 5;
+MPRINT(EM_DIAGRAM):   drop _dm5 ;
+22748     +   _dm5 = put( age , $5. );
+MPRINT(EM_DIAGRAM):   _dm5 = put( age , $5. );
+22749     +   %DMNORMIP( _dm5 )
+MPRINT(DMNORMIP):   call dmnorm(_dm5,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMIP):  );
+22750     +   _dm_find = 0; drop _dm_find;
+MPRINT(EM_DIAGRAM):   _dm_find = 0;
+MPRINT(EM_DIAGRAM):   drop _dm_find;
+22751     +   if _dm5 <= '40-49'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '40-49' then do;
+22752     +      if _dm5 <= '30-39'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '30-39' then do;
+22753     +         if _dm5 = '20-29'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '20-29' then do;
+22754     +            age20_29 = 1;
+MPRINT(EM_DIAGRAM):   age20_29 = 1;
+22755     +            _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22756     +         end;
+MPRINT(EM_DIAGRAM):   end;
+22757     +         else do;
+MPRINT(EM_DIAGRAM):   else do;
+22758     +            if _dm5 = '30-39'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '30-39' then do;
+22759     +               age30_39 = 1;
+MPRINT(EM_DIAGRAM):   age30_39 = 1;
+22760     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22761     +            end;
+MPRINT(EM_DIAGRAM):   end;
+22762     +         end;
+MPRINT(EM_DIAGRAM):   end;
+22763     +      end;
+MPRINT(EM_DIAGRAM):   end;
+22764     +      else do;
+MPRINT(EM_DIAGRAM):   else do;
+22765     +         if _dm5 = '40-49'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '40-49' then do;
+22766     +            age40_49 = 1;
+MPRINT(EM_DIAGRAM):   age40_49 = 1;
+22767     +            _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22768     +         end;
+MPRINT(EM_DIAGRAM):   end;
+22769     +      end;
+MPRINT(EM_DIAGRAM):   end;
+22770     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22771     +   else do;
+MPRINT(EM_DIAGRAM):   else do;
+22772     +      if _dm5 <= '60-69'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '60-69' then do;
+22773     +         if _dm5 = '50-59'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '50-59' then do;
+22774     +            age50_59 = 1;
+MPRINT(EM_DIAGRAM):   age50_59 = 1;
+22775     +            _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22776     +         end;
+MPRINT(EM_DIAGRAM):   end;
+22777     +         else do;
+MPRINT(EM_DIAGRAM):   else do;
+22778     +            if _dm5 = '60-69'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '60-69' then do;
+22779     +               age60_69 = 1;
+MPRINT(EM_DIAGRAM):   age60_69 = 1;
+22780     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22781     +            end;
+MPRINT(EM_DIAGRAM):   end;
+22782     +         end;
+MPRINT(EM_DIAGRAM):   end;
+22783     +      end;
+MPRINT(EM_DIAGRAM):   end;
+22784     +      else do;
+MPRINT(EM_DIAGRAM):   else do;
+22785     +         if _dm5 = '70-79'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '70-79' then do;
+22786     +            age20_29 = -1;
+MPRINT(EM_DIAGRAM):   age20_29 = -1;
+22787     +            age30_39 = -1;
+MPRINT(EM_DIAGRAM):   age30_39 = -1;
+22788     +            age40_49 = -1;
+MPRINT(EM_DIAGRAM):   age40_49 = -1;
+22789     +            age50_59 = -1;
+MPRINT(EM_DIAGRAM):   age50_59 = -1;
+22790     +            age60_69 = -1;
+MPRINT(EM_DIAGRAM):   age60_69 = -1;
+22791     +            _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+22792     +         end;
+MPRINT(EM_DIAGRAM):   end;
+22793     +      end;
+MPRINT(EM_DIAGRAM):   end;
+22794     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22795     +   if not _dm_find then do;
+MPRINT(EM_DIAGRAM):   if not _dm_find then do;
+22796     +      age20_29 = .;
+MPRINT(EM_DIAGRAM):   age20_29 = .;
+22797     +      age30_39 = .;
+MPRINT(EM_DIAGRAM):   age30_39 = .;
+22798     +      age40_49 = .;
+MPRINT(EM_DIAGRAM):   age40_49 = .;
+22799     +      age50_59 = .;
+MPRINT(EM_DIAGRAM):   age50_59 = .;
+22800     +      age60_69 = .;
+MPRINT(EM_DIAGRAM):   age60_69 = .;
+22801     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+22802     +      _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22803     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22804     +end;
+MPRINT(EM_DIAGRAM):   end;
+22805     +
+22806     +*** Generate dummy variables for breast ;
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for breast ;
+22807     +drop breastleft ;
+MPRINT(EM_DIAGRAM):   drop breastleft ;
+22808     +if missing( breast ) then do;
+MPRINT(EM_DIAGRAM):   if missing( breast ) then do;
+22809     +   breastleft = .;
+MPRINT(EM_DIAGRAM):   breastleft = .;
+22810     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+22811     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22812     +end;
+MPRINT(EM_DIAGRAM):   end;
+22813     +else do;
+MPRINT(EM_DIAGRAM):   else do;
+22814     +   length _dm5 $ 5; drop _dm5 ;
+MPRINT(EM_DIAGRAM):   length _dm5 $ 5;
+MPRINT(EM_DIAGRAM):   drop _dm5 ;
+22815     +   _dm5 = put( breast , $5. );
+MPRINT(EM_DIAGRAM):   _dm5 = put( breast , $5. );
+22816     +   %DMNORMIP( _dm5 )
+MPRINT(DMNORMIP):   call dmnorm(_dm5,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMIP):  );
+22817     +   if _dm5 = 'LEFT'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = 'LEFT' then do;
+22818     +      breastleft = 1;
+MPRINT(EM_DIAGRAM):   breastleft = 1;
+22819     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22820     +   else if _dm5 = 'RIGHT'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm5 = 'RIGHT' then do;
+22821     +      breastleft = -1;
+MPRINT(EM_DIAGRAM):   breastleft = -1;
+22822     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22823     +   else do;
+MPRINT(EM_DIAGRAM):   else do;
+22824     +      breastleft = .;
+MPRINT(EM_DIAGRAM):   breastleft = .;
+22825     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+22826     +      _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22827     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22828     +end;
+MPRINT(EM_DIAGRAM):   end;
+22829     +
+22830     +*** Generate dummy variables for breast_quad ;
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for breast_quad ;
+22831     +drop breast_quad_ breast_quadcentral breast_quadleft_low breast_quadleft_up
+22832     +        breast_quadright_low ;
+MPRINT(EM_DIAGRAM):   drop breast_quad_ breast_quadcentral breast_quadleft_low breast_quadleft_up breast_quadright_low ;
+22833     +*** encoding is sparse, initialize to zero;
+MPRINT(EM_DIAGRAM):   *** encoding is sparse, initialize to zero;
+22834     +breast_quad_ = 0;
+MPRINT(EM_DIAGRAM):   breast_quad_ = 0;
+22835     +breast_quadcentral = 0;
+MPRINT(EM_DIAGRAM):   breast_quadcentral = 0;
+22836     +breast_quadleft_low = 0;
+MPRINT(EM_DIAGRAM):   breast_quadleft_low = 0;
+22837     +breast_quadleft_up = 0;
+MPRINT(EM_DIAGRAM):   breast_quadleft_up = 0;
+22838     +breast_quadright_low = 0;
+MPRINT(EM_DIAGRAM):   breast_quadright_low = 0;
+22839     +if missing( breast_quad ) then do;
+MPRINT(EM_DIAGRAM):   if missing( breast_quad ) then do;
+22840     +   breast_quad_ = .;
+MPRINT(EM_DIAGRAM):   breast_quad_ = .;
+22841     +   breast_quadcentral = .;
+MPRINT(EM_DIAGRAM):   breast_quadcentral = .;
+22842     +   breast_quadleft_low = .;
+MPRINT(EM_DIAGRAM):   breast_quadleft_low = .;
+22843     +   breast_quadleft_up = .;
+MPRINT(EM_DIAGRAM):   breast_quadleft_up = .;
+22844     +   breast_quadright_low = .;
+MPRINT(EM_DIAGRAM):   breast_quadright_low = .;
+22845     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+22846     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22847     +end;
+MPRINT(EM_DIAGRAM):   end;
+22848     +else do;
+MPRINT(EM_DIAGRAM):   else do;
+22849     +   length _dm9 $ 9; drop _dm9 ;
+MPRINT(EM_DIAGRAM):   length _dm9 $ 9;
+MPRINT(EM_DIAGRAM):   drop _dm9 ;
+22850     +   %DMNORMCP( breast_quad , _dm9 )
+MPRINT(DMNORMCP):   _dm9=dmnorm(breast_quad,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMCP):  );
+22851     +   if _dm9 = 'LEFT_UP'  then do;
+MPRINT(EM_DIAGRAM):   if _dm9 = 'LEFT_UP' then do;
+22852     +      breast_quadleft_up = 1;
+MPRINT(EM_DIAGRAM):   breast_quadleft_up = 1;
+22853     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22854     +   else if _dm9 = 'LEFT_LOW'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm9 = 'LEFT_LOW' then do;
+22855     +      breast_quadleft_low = 1;
+MPRINT(EM_DIAGRAM):   breast_quadleft_low = 1;
+22856     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22857     +   else if _dm9 = 'RIGHT_UP'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm9 = 'RIGHT_UP' then do;
+22858     +      breast_quad_ = -1;
+MPRINT(EM_DIAGRAM):   breast_quad_ = -1;
+22859     +      breast_quadcentral = -1;
+MPRINT(EM_DIAGRAM):   breast_quadcentral = -1;
+22860     +      breast_quadleft_low = -1;
+MPRINT(EM_DIAGRAM):   breast_quadleft_low = -1;
+22861     +      breast_quadleft_up = -1;
+MPRINT(EM_DIAGRAM):   breast_quadleft_up = -1;
+22862     +      breast_quadright_low = -1;
+MPRINT(EM_DIAGRAM):   breast_quadright_low = -1;
+22863     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22864     +   else if _dm9 = 'CENTRAL'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm9 = 'CENTRAL' then do;
+22865     +      breast_quadcentral = 1;
+MPRINT(EM_DIAGRAM):   breast_quadcentral = 1;
+22866     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22867     +   else if _dm9 = 'RIGHT_LOW'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm9 = 'RIGHT_LOW' then do;
+22868     +      breast_quadright_low = 1;
+MPRINT(EM_DIAGRAM):   breast_quadright_low = 1;
+22869     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22870     +   else if _dm9 = '?'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm9 = '?' then do;
+22871     +      breast_quad_ = 1;
+MPRINT(EM_DIAGRAM):   breast_quad_ = 1;
+22872     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22873     +   else do;
+MPRINT(EM_DIAGRAM):   else do;
+22874     +      breast_quad_ = .;
+MPRINT(EM_DIAGRAM):   breast_quad_ = .;
+22875     +      breast_quadcentral = .;
+MPRINT(EM_DIAGRAM):   breast_quadcentral = .;
+22876     +      breast_quadleft_low = .;
+MPRINT(EM_DIAGRAM):   breast_quadleft_low = .;
+22877     +      breast_quadleft_up = .;
+MPRINT(EM_DIAGRAM):   breast_quadleft_up = .;
+22878     +      breast_quadright_low = .;
+MPRINT(EM_DIAGRAM):   breast_quadright_low = .;
+22879     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+22880     +      _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22881     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22882     +end;
+MPRINT(EM_DIAGRAM):   end;
+22883     +
+22884     +*** Generate dummy variables for inv_nodes ;
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for inv_nodes ;
+22885     +drop inv_nodes0_2 inv_nodes12_14 inv_nodes15_17 inv_nodes24_26 inv_nodes3_5
+22886     +        inv_nodes6_8 ;
+MPRINT(EM_DIAGRAM):   drop inv_nodes0_2 inv_nodes12_14 inv_nodes15_17 inv_nodes24_26 inv_nodes3_5 inv_nodes6_8 ;
+22887     +*** encoding is sparse, initialize to zero;
+MPRINT(EM_DIAGRAM):   *** encoding is sparse, initialize to zero;
+22888     +inv_nodes0_2 = 0;
+MPRINT(EM_DIAGRAM):   inv_nodes0_2 = 0;
+22889     +inv_nodes12_14 = 0;
+MPRINT(EM_DIAGRAM):   inv_nodes12_14 = 0;
+22890     +inv_nodes15_17 = 0;
+MPRINT(EM_DIAGRAM):   inv_nodes15_17 = 0;
+22891     +inv_nodes24_26 = 0;
+MPRINT(EM_DIAGRAM):   inv_nodes24_26 = 0;
+22892     +inv_nodes3_5 = 0;
+MPRINT(EM_DIAGRAM):   inv_nodes3_5 = 0;
+22893     +inv_nodes6_8 = 0;
+MPRINT(EM_DIAGRAM):   inv_nodes6_8 = 0;
+22894     +if missing( inv_nodes ) then do;
+MPRINT(EM_DIAGRAM):   if missing( inv_nodes ) then do;
+22895     +   inv_nodes0_2 = .;
+MPRINT(EM_DIAGRAM):   inv_nodes0_2 = .;
+22896     +   inv_nodes12_14 = .;
+MPRINT(EM_DIAGRAM):   inv_nodes12_14 = .;
+22897     +   inv_nodes15_17 = .;
+MPRINT(EM_DIAGRAM):   inv_nodes15_17 = .;
+22898     +   inv_nodes24_26 = .;
+MPRINT(EM_DIAGRAM):   inv_nodes24_26 = .;
+22899     +   inv_nodes3_5 = .;
+MPRINT(EM_DIAGRAM):   inv_nodes3_5 = .;
+22900     +   inv_nodes6_8 = .;
+MPRINT(EM_DIAGRAM):   inv_nodes6_8 = .;
+22901     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+22902     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22903     +end;
+MPRINT(EM_DIAGRAM):   end;
+22904     +else do;
+MPRINT(EM_DIAGRAM):   else do;
+22905     +   length _dm5 $ 5; drop _dm5 ;
+MPRINT(EM_DIAGRAM):   length _dm5 $ 5;
+MPRINT(EM_DIAGRAM):   drop _dm5 ;
+22906     +   %DMNORMCP( inv_nodes , _dm5 )
+MPRINT(DMNORMCP):   _dm5=dmnorm(inv_nodes,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMCP):  );
+22907     +   if _dm5 = '0-2'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '0-2' then do;
+22908     +      inv_nodes0_2 = 1;
+MPRINT(EM_DIAGRAM):   inv_nodes0_2 = 1;
+22909     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22910     +   else if _dm5 = '3-5'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm5 = '3-5' then do;
+22911     +      inv_nodes3_5 = 1;
+MPRINT(EM_DIAGRAM):   inv_nodes3_5 = 1;
+22912     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22913     +   else if _dm5 = '6-8'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm5 = '6-8' then do;
+22914     +      inv_nodes6_8 = 1;
+MPRINT(EM_DIAGRAM):   inv_nodes6_8 = 1;
+22915     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22916     +   else if _dm5 = '15-17'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm5 = '15-17' then do;
+22917     +      inv_nodes15_17 = 1;
+MPRINT(EM_DIAGRAM):   inv_nodes15_17 = 1;
+22918     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22919     +   else if _dm5 = '9-11'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm5 = '9-11' then do;
+22920     +      inv_nodes0_2 = -1;
+MPRINT(EM_DIAGRAM):   inv_nodes0_2 = -1;
+22921     +      inv_nodes12_14 = -1;
+MPRINT(EM_DIAGRAM):   inv_nodes12_14 = -1;
+22922     +      inv_nodes15_17 = -1;
+MPRINT(EM_DIAGRAM):   inv_nodes15_17 = -1;
+22923     +      inv_nodes24_26 = -1;
+MPRINT(EM_DIAGRAM):   inv_nodes24_26 = -1;
+22924     +      inv_nodes3_5 = -1;
+MPRINT(EM_DIAGRAM):   inv_nodes3_5 = -1;
+22925     +      inv_nodes6_8 = -1;
+MPRINT(EM_DIAGRAM):   inv_nodes6_8 = -1;
+22926     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22927     +   else if _dm5 = '12-14'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm5 = '12-14' then do;
+22928     +      inv_nodes12_14 = 1;
+MPRINT(EM_DIAGRAM):   inv_nodes12_14 = 1;
+22929     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22930     +   else if _dm5 = '24-26'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm5 = '24-26' then do;
+22931     +      inv_nodes24_26 = 1;
+MPRINT(EM_DIAGRAM):   inv_nodes24_26 = 1;
+22932     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22933     +   else do;
+MPRINT(EM_DIAGRAM):   else do;
+22934     +      inv_nodes0_2 = .;
+MPRINT(EM_DIAGRAM):   inv_nodes0_2 = .;
+22935     +      inv_nodes12_14 = .;
+MPRINT(EM_DIAGRAM):   inv_nodes12_14 = .;
+22936     +      inv_nodes15_17 = .;
+MPRINT(EM_DIAGRAM):   inv_nodes15_17 = .;
+22937     +      inv_nodes24_26 = .;
+MPRINT(EM_DIAGRAM):   inv_nodes24_26 = .;
+22938     +      inv_nodes3_5 = .;
+MPRINT(EM_DIAGRAM):   inv_nodes3_5 = .;
+22939     +      inv_nodes6_8 = .;
+MPRINT(EM_DIAGRAM):   inv_nodes6_8 = .;
+22940     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+22941     +      _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22942     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22943     +end;
+MPRINT(EM_DIAGRAM):   end;
+22944     +
+22945     +*** Generate dummy variables for irradiat ;
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for irradiat ;
+22946     +drop irradiatno ;
+MPRINT(EM_DIAGRAM):   drop irradiatno ;
+22947     +if missing( irradiat ) then do;
+MPRINT(EM_DIAGRAM):   if missing( irradiat ) then do;
+22948     +   irradiatno = .;
+MPRINT(EM_DIAGRAM):   irradiatno = .;
+22949     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+22950     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22951     +end;
+MPRINT(EM_DIAGRAM):   end;
+22952     +else do;
+MPRINT(EM_DIAGRAM):   else do;
+22953     +   length _dm3 $ 3; drop _dm3 ;
+MPRINT(EM_DIAGRAM):   length _dm3 $ 3;
+MPRINT(EM_DIAGRAM):   drop _dm3 ;
+22954     +   _dm3 = put( irradiat , $3. );
+MPRINT(EM_DIAGRAM):   _dm3 = put( irradiat , $3. );
+22955     +   %DMNORMIP( _dm3 )
+MPRINT(DMNORMIP):   call dmnorm(_dm3,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMIP):  );
+22956     +   if _dm3 = 'NO'  then do;
+MPRINT(EM_DIAGRAM):   if _dm3 = 'NO' then do;
+22957     +      irradiatno = 1;
+MPRINT(EM_DIAGRAM):   irradiatno = 1;
+22958     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22959     +   else if _dm3 = 'YES'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm3 = 'YES' then do;
+22960     +      irradiatno = -1;
+MPRINT(EM_DIAGRAM):   irradiatno = -1;
+22961     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22962     +   else do;
+MPRINT(EM_DIAGRAM):   else do;
+22963     +      irradiatno = .;
+MPRINT(EM_DIAGRAM):   irradiatno = .;
+22964     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+22965     +      _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22966     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22967     +end;
+MPRINT(EM_DIAGRAM):   end;
+22968     +
+22969     +*** Generate dummy variables for menopause ;
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for menopause ;
+22970     +drop menopausege40 menopauselt40 ;
+MPRINT(EM_DIAGRAM):   drop menopausege40 menopauselt40 ;
+22971     +if missing( menopause ) then do;
+MPRINT(EM_DIAGRAM):   if missing( menopause ) then do;
+22972     +   menopausege40 = .;
+MPRINT(EM_DIAGRAM):   menopausege40 = .;
+22973     +   menopauselt40 = .;
+MPRINT(EM_DIAGRAM):   menopauselt40 = .;
+22974     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+22975     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22976     +end;
+MPRINT(EM_DIAGRAM):   end;
+22977     +else do;
+MPRINT(EM_DIAGRAM):   else do;
+22978     +   length _dm7 $ 7; drop _dm7 ;
+MPRINT(EM_DIAGRAM):   length _dm7 $ 7;
+MPRINT(EM_DIAGRAM):   drop _dm7 ;
+22979     +   _dm7 = put( menopause , $7. );
+MPRINT(EM_DIAGRAM):   _dm7 = put( menopause , $7. );
+22980     +   %DMNORMIP( _dm7 )
+MPRINT(DMNORMIP):   call dmnorm(_dm7,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMIP):  );
+22981     +   if _dm7 = 'PREMENO'  then do;
+MPRINT(EM_DIAGRAM):   if _dm7 = 'PREMENO' then do;
+22982     +      menopausege40 = -1;
+MPRINT(EM_DIAGRAM):   menopausege40 = -1;
+22983     +      menopauselt40 = -1;
+MPRINT(EM_DIAGRAM):   menopauselt40 = -1;
+22984     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22985     +   else if _dm7 = 'GE40'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm7 = 'GE40' then do;
+22986     +      menopausege40 = 1;
+MPRINT(EM_DIAGRAM):   menopausege40 = 1;
+22987     +      menopauselt40 = 0;
+MPRINT(EM_DIAGRAM):   menopauselt40 = 0;
+22988     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22989     +   else if _dm7 = 'LT40'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm7 = 'LT40' then do;
+22990     +      menopausege40 = 0;
+MPRINT(EM_DIAGRAM):   menopausege40 = 0;
+22991     +      menopauselt40 = 1;
+MPRINT(EM_DIAGRAM):   menopauselt40 = 1;
+22992     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22993     +   else do;
+MPRINT(EM_DIAGRAM):   else do;
+22994     +      menopausege40 = .;
+MPRINT(EM_DIAGRAM):   menopausege40 = .;
+22995     +      menopauselt40 = .;
+MPRINT(EM_DIAGRAM):   menopauselt40 = .;
+22996     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+22997     +      _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+22998     +   end;
+MPRINT(EM_DIAGRAM):   end;
+22999     +end;
+MPRINT(EM_DIAGRAM):   end;
+23000     +
+23001     +*** Generate dummy variables for node_caps ;
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for node_caps ;
+23002     +drop node_caps_ node_capsno ;
+MPRINT(EM_DIAGRAM):   drop node_caps_ node_capsno ;
+23003     +if missing( node_caps ) then do;
+MPRINT(EM_DIAGRAM):   if missing( node_caps ) then do;
+23004     +   node_caps_ = .;
+MPRINT(EM_DIAGRAM):   node_caps_ = .;
+23005     +   node_capsno = .;
+MPRINT(EM_DIAGRAM):   node_capsno = .;
+23006     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+23007     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+23008     +end;
+MPRINT(EM_DIAGRAM):   end;
+23009     +else do;
+MPRINT(EM_DIAGRAM):   else do;
+23010     +   length _dm3 $ 3; drop _dm3 ;
+MPRINT(EM_DIAGRAM):   length _dm3 $ 3;
+MPRINT(EM_DIAGRAM):   drop _dm3 ;
+23011     +   %DMNORMCP( node_caps , _dm3 )
+MPRINT(DMNORMCP):   _dm3=dmnorm(node_caps,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMCP):  );
+23012     +   if _dm3 = 'NO'  then do;
+MPRINT(EM_DIAGRAM):   if _dm3 = 'NO' then do;
+23013     +      node_caps_ = 0;
+MPRINT(EM_DIAGRAM):   node_caps_ = 0;
+23014     +      node_capsno = 1;
+MPRINT(EM_DIAGRAM):   node_capsno = 1;
+23015     +   end;
+MPRINT(EM_DIAGRAM):   end;
+23016     +   else if _dm3 = 'YES'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm3 = 'YES' then do;
+23017     +      node_caps_ = -1;
+MPRINT(EM_DIAGRAM):   node_caps_ = -1;
+23018     +      node_capsno = -1;
+MPRINT(EM_DIAGRAM):   node_capsno = -1;
+23019     +   end;
+MPRINT(EM_DIAGRAM):   end;
+23020     +   else if _dm3 = '?'  then do;
+MPRINT(EM_DIAGRAM):   else if _dm3 = '?' then do;
+23021     +      node_caps_ = 1;
+MPRINT(EM_DIAGRAM):   node_caps_ = 1;
+23022     +      node_capsno = 0;
+MPRINT(EM_DIAGRAM):   node_capsno = 0;
+23023     +   end;
+MPRINT(EM_DIAGRAM):   end;
+23024     +   else do;
+MPRINT(EM_DIAGRAM):   else do;
+23025     +      node_caps_ = .;
+MPRINT(EM_DIAGRAM):   node_caps_ = .;
+23026     +      node_capsno = .;
+MPRINT(EM_DIAGRAM):   node_capsno = .;
+23027     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+23028     +      _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+23029     +   end;
+MPRINT(EM_DIAGRAM):   end;
+23030     +end;
+MPRINT(EM_DIAGRAM):   end;
+23031     +
+23032     +*** Generate dummy variables for tumor_size ;
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for tumor_size ;
+23033     +drop tumor_size0_4 tumor_size10_14 tumor_size15_19 tumor_size20_24
+23034     +        tumor_size25_29 tumor_size30_34 tumor_size35_39 tumor_size40_44
+23035     +        tumor_size45_49 tumor_size5_9 ;
+MPRINT(EM_DIAGRAM):   drop tumor_size0_4 tumor_size10_14 tumor_size15_19 tumor_size20_24 tumor_size25_29 tumor_size30_34 tumor_size35_39 tumor_size40_44 tumor_size45_49 tumor_size5_9 ;
+23036     +*** encoding is sparse, initialize to zero;
+MPRINT(EM_DIAGRAM):   *** encoding is sparse, initialize to zero;
+23037     +tumor_size0_4 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size0_4 = 0;
+23038     +tumor_size10_14 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size10_14 = 0;
+23039     +tumor_size15_19 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size15_19 = 0;
+23040     +tumor_size20_24 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size20_24 = 0;
+23041     +tumor_size25_29 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size25_29 = 0;
+23042     +tumor_size30_34 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size30_34 = 0;
+23043     +tumor_size35_39 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size35_39 = 0;
+23044     +tumor_size40_44 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size40_44 = 0;
+23045     +tumor_size45_49 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size45_49 = 0;
+23046     +tumor_size5_9 = 0;
+MPRINT(EM_DIAGRAM):   tumor_size5_9 = 0;
+23047     +if missing( tumor_size ) then do;
+MPRINT(EM_DIAGRAM):   if missing( tumor_size ) then do;
+23048     +   tumor_size0_4 = .;
+MPRINT(EM_DIAGRAM):   tumor_size0_4 = .;
+23049     +   tumor_size10_14 = .;
+MPRINT(EM_DIAGRAM):   tumor_size10_14 = .;
+23050     +   tumor_size15_19 = .;
+MPRINT(EM_DIAGRAM):   tumor_size15_19 = .;
+23051     +   tumor_size20_24 = .;
+MPRINT(EM_DIAGRAM):   tumor_size20_24 = .;
+23052     +   tumor_size25_29 = .;
+MPRINT(EM_DIAGRAM):   tumor_size25_29 = .;
+23053     +   tumor_size30_34 = .;
+MPRINT(EM_DIAGRAM):   tumor_size30_34 = .;
+23054     +   tumor_size35_39 = .;
+MPRINT(EM_DIAGRAM):   tumor_size35_39 = .;
+23055     +   tumor_size40_44 = .;
+MPRINT(EM_DIAGRAM):   tumor_size40_44 = .;
+23056     +   tumor_size45_49 = .;
+MPRINT(EM_DIAGRAM):   tumor_size45_49 = .;
+23057     +   tumor_size5_9 = .;
+MPRINT(EM_DIAGRAM):   tumor_size5_9 = .;
+23058     +   substr(_warn_,1,1) = 'M';
+MPRINT(EM_DIAGRAM):   substr(_warn_,1,1) = 'M';
+23059     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+23060     +end;
+MPRINT(EM_DIAGRAM):   end;
+23061     +else do;
+MPRINT(EM_DIAGRAM):   else do;
+23062     +   length _dm5 $ 5; drop _dm5 ;
+MPRINT(EM_DIAGRAM):   length _dm5 $ 5;
+MPRINT(EM_DIAGRAM):   drop _dm5 ;
+23063     +   %DMNORMCP( tumor_size , _dm5 )
+MPRINT(DMNORMCP):   _dm5=dmnorm(tumor_size,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMCP):  );
+23064     +   _dm_find = 0; drop _dm_find;
+MPRINT(EM_DIAGRAM):   _dm_find = 0;
+MPRINT(EM_DIAGRAM):   drop _dm_find;
+23065     +   if _dm5 <= '30-34'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '30-34' then do;
+23066     +      if _dm5 <= '15-19'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '15-19' then do;
+23067     +         if _dm5 <= '10-14'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '10-14' then do;
+23068     +            if _dm5 = '0-4'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '0-4' then do;
+23069     +               tumor_size0_4 = 1;
+MPRINT(EM_DIAGRAM):   tumor_size0_4 = 1;
+23070     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+23071     +            end;
+MPRINT(EM_DIAGRAM):   end;
+23072     +            else do;
+MPRINT(EM_DIAGRAM):   else do;
+23073     +               if _dm5 = '10-14'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '10-14' then do;
+23074     +                  tumor_size10_14 = 1;
+MPRINT(EM_DIAGRAM):   tumor_size10_14 = 1;
+23075     +                  _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+23076     +               end;
+MPRINT(EM_DIAGRAM):   end;
+23077     +            end;
+MPRINT(EM_DIAGRAM):   end;
+23078     +         end;
+MPRINT(EM_DIAGRAM):   end;
+23079     +         else do;
+MPRINT(EM_DIAGRAM):   else do;
+23080     +            if _dm5 = '15-19'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '15-19' then do;
+23081     +               tumor_size15_19 = 1;
+MPRINT(EM_DIAGRAM):   tumor_size15_19 = 1;
+23082     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+23083     +            end;
+MPRINT(EM_DIAGRAM):   end;
+23084     +         end;
+MPRINT(EM_DIAGRAM):   end;
+23085     +      end;
+MPRINT(EM_DIAGRAM):   end;
+23086     +      else do;
+MPRINT(EM_DIAGRAM):   else do;
+23087     +         if _dm5 <= '25-29'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '25-29' then do;
+23088     +            if _dm5 = '20-24'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '20-24' then do;
+23089     +               tumor_size20_24 = 1;
+MPRINT(EM_DIAGRAM):   tumor_size20_24 = 1;
+23090     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+23091     +            end;
+MPRINT(EM_DIAGRAM):   end;
+23092     +            else do;
+MPRINT(EM_DIAGRAM):   else do;
+23093     +               if _dm5 = '25-29'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '25-29' then do;
+23094     +                  tumor_size25_29 = 1;
+MPRINT(EM_DIAGRAM):   tumor_size25_29 = 1;
+23095     +                  _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+23096     +               end;
+MPRINT(EM_DIAGRAM):   end;
+23097     +            end;
+MPRINT(EM_DIAGRAM):   end;
+23098     +         end;
+MPRINT(EM_DIAGRAM):   end;
+23099     +         else do;
+MPRINT(EM_DIAGRAM):   else do;
+23100     +            if _dm5 = '30-34'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '30-34' then do;
+23101     +               tumor_size30_34 = 1;
+MPRINT(EM_DIAGRAM):   tumor_size30_34 = 1;
+23102     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+23103     +            end;
+MPRINT(EM_DIAGRAM):   end;
+23104     +         end;
+MPRINT(EM_DIAGRAM):   end;
+23105     +      end;
+MPRINT(EM_DIAGRAM):   end;
+23106     +   end;
+MPRINT(EM_DIAGRAM):   end;
+23107     +   else do;
+MPRINT(EM_DIAGRAM):   else do;
+23108     +      if _dm5 <= '45-49'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '45-49' then do;
+23109     +         if _dm5 <= '40-44'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 <= '40-44' then do;
+23110     +            if _dm5 = '35-39'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '35-39' then do;
+23111     +               tumor_size35_39 = 1;
+MPRINT(EM_DIAGRAM):   tumor_size35_39 = 1;
+23112     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+23113     +            end;
+MPRINT(EM_DIAGRAM):   end;
+23114     +            else do;
+MPRINT(EM_DIAGRAM):   else do;
+23115     +               if _dm5 = '40-44'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '40-44' then do;
+23116     +                  tumor_size40_44 = 1;
+MPRINT(EM_DIAGRAM):   tumor_size40_44 = 1;
+23117     +                  _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+23118     +               end;
+MPRINT(EM_DIAGRAM):   end;
+23119     +            end;
+MPRINT(EM_DIAGRAM):   end;
+23120     +         end;
+MPRINT(EM_DIAGRAM):   end;
+23121     +         else do;
+MPRINT(EM_DIAGRAM):   else do;
+23122     +            if _dm5 = '45-49'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '45-49' then do;
+23123     +               tumor_size45_49 = 1;
+MPRINT(EM_DIAGRAM):   tumor_size45_49 = 1;
+23124     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+23125     +            end;
+MPRINT(EM_DIAGRAM):   end;
+23126     +         end;
+MPRINT(EM_DIAGRAM):   end;
+23127     +      end;
+MPRINT(EM_DIAGRAM):   end;
+23128     +      else do;
+MPRINT(EM_DIAGRAM):   else do;
+23129     +         if _dm5 = '5-9'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '5-9' then do;
+23130     +            tumor_size5_9 = 1;
+MPRINT(EM_DIAGRAM):   tumor_size5_9 = 1;
+23131     +            _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+23132     +         end;
+MPRINT(EM_DIAGRAM):   end;
+23133     +         else do;
+MPRINT(EM_DIAGRAM):   else do;
+23134     +            if _dm5 = '50-54'  then do;
+MPRINT(EM_DIAGRAM):   if _dm5 = '50-54' then do;
+23135     +               tumor_size0_4 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size0_4 = -1;
+23136     +               tumor_size10_14 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size10_14 = -1;
+23137     +               tumor_size15_19 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size15_19 = -1;
+23138     +               tumor_size20_24 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size20_24 = -1;
+23139     +               tumor_size25_29 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size25_29 = -1;
+23140     +               tumor_size30_34 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size30_34 = -1;
+23141     +               tumor_size35_39 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size35_39 = -1;
+23142     +               tumor_size40_44 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size40_44 = -1;
+23143     +               tumor_size45_49 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size45_49 = -1;
+23144     +               tumor_size5_9 = -1;
+MPRINT(EM_DIAGRAM):   tumor_size5_9 = -1;
+23145     +               _dm_find = 1;
+MPRINT(EM_DIAGRAM):   _dm_find = 1;
+23146     +            end;
+MPRINT(EM_DIAGRAM):   end;
+23147     +         end;
+MPRINT(EM_DIAGRAM):   end;
+23148     +      end;
+MPRINT(EM_DIAGRAM):   end;
+23149     +   end;
+MPRINT(EM_DIAGRAM):   end;
+23150     +   if not _dm_find then do;
+MPRINT(EM_DIAGRAM):   if not _dm_find then do;
+23151     +      tumor_size0_4 = .;
+MPRINT(EM_DIAGRAM):   tumor_size0_4 = .;
+23152     +      tumor_size10_14 = .;
+MPRINT(EM_DIAGRAM):   tumor_size10_14 = .;
+23153     +      tumor_size15_19 = .;
+MPRINT(EM_DIAGRAM):   tumor_size15_19 = .;
+23154     +      tumor_size20_24 = .;
+MPRINT(EM_DIAGRAM):   tumor_size20_24 = .;
+23155     +      tumor_size25_29 = .;
+MPRINT(EM_DIAGRAM):   tumor_size25_29 = .;
+23156     +      tumor_size30_34 = .;
+MPRINT(EM_DIAGRAM):   tumor_size30_34 = .;
+23157     +      tumor_size35_39 = .;
+MPRINT(EM_DIAGRAM):   tumor_size35_39 = .;
+23158     +      tumor_size40_44 = .;
+MPRINT(EM_DIAGRAM):   tumor_size40_44 = .;
+23159     +      tumor_size45_49 = .;
+MPRINT(EM_DIAGRAM):   tumor_size45_49 = .;
+23160     +      tumor_size5_9 = .;
+MPRINT(EM_DIAGRAM):   tumor_size5_9 = .;
+23161     +      substr(_warn_,2,1) = 'U';
+MPRINT(EM_DIAGRAM):   substr(_warn_,2,1) = 'U';
+23162     +      _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+23163     +   end;
+MPRINT(EM_DIAGRAM):   end;
+23164     +end;
+MPRINT(EM_DIAGRAM):   end;
+23165     +
+23166     +*** *************************;
+MPRINT(EM_DIAGRAM):   *** *************************;
+23167     +*** Checking missing input Interval
+23168     +*** *************************;
+MPRINT(EM_DIAGRAM):   *** Checking missing input Interval *** *************************;
+23169     +
+23170     +IF NMISS(
+23171     +   deg_malig   ) THEN DO;
+MPRINT(EM_DIAGRAM):   IF NMISS( deg_malig ) THEN DO;
+23172     +   SUBSTR(_WARN_, 1, 1) = 'M';
+MPRINT(EM_DIAGRAM):   SUBSTR(_WARN_, 1, 1) = 'M';
+23173     +
+23174     +   _DM_BAD = 1;
+MPRINT(EM_DIAGRAM):   _DM_BAD = 1;
+23175     +END;
+MPRINT(EM_DIAGRAM):   END;
+23176     +*** *************************;
+MPRINT(EM_DIAGRAM):   *** *************************;
+23177     +*** Writing the Node intvl ;
+MPRINT(EM_DIAGRAM):   *** Writing the Node intvl ;
+23178     +*** *************************;
+MPRINT(EM_DIAGRAM):   *** *************************;
+23179     +IF _DM_BAD EQ 0 THEN DO;
+MPRINT(EM_DIAGRAM):   IF _DM_BAD EQ 0 THEN DO;
+23180     +   S_deg_malig  =    -2.78253429049127 +     1.35716746031314 * deg_malig ;
+MPRINT(EM_DIAGRAM):   S_deg_malig = -2.78253429049127 + 1.35716746031314 * deg_malig ;
+23181     +END;
+MPRINT(EM_DIAGRAM):   END;
+23182     +ELSE DO;
+MPRINT(EM_DIAGRAM):   ELSE DO;
+23183     +   IF MISSING( deg_malig ) THEN S_deg_malig  = . ;
+MPRINT(EM_DIAGRAM):   IF MISSING( deg_malig ) THEN S_deg_malig = . ;
+23184     +   ELSE S_deg_malig  =    -2.78253429049127 +     1.35716746031314 * deg_malig
+23185     +         ;
+MPRINT(EM_DIAGRAM):   ELSE S_deg_malig = -2.78253429049127 + 1.35716746031314 * deg_malig ;
+23186     +END;
+MPRINT(EM_DIAGRAM):   END;
+23187     +*** *************************;
+MPRINT(EM_DIAGRAM):   *** *************************;
+23188     +*** Writing the Node nom ;
+MPRINT(EM_DIAGRAM):   *** Writing the Node nom ;
+23189     +*** *************************;
+MPRINT(EM_DIAGRAM):   *** *************************;
+23190     +*** *************************;
+MPRINT(EM_DIAGRAM):   *** *************************;
+23191     +*** Writing the Node H1 ;
+MPRINT(EM_DIAGRAM):   *** Writing the Node H1 ;
+23192     +*** *************************;
+MPRINT(EM_DIAGRAM):   *** *************************;
+23193     +IF _DM_BAD EQ 0 THEN DO;
+MPRINT(EM_DIAGRAM):   IF _DM_BAD EQ 0 THEN DO;
+23194     +   H11  =    -2.74796971637258 * S_deg_malig ;
+MPRINT(EM_DIAGRAM):   H11 = -2.74796971637258 * S_deg_malig ;
+23195     +   H12  =    -1.14470380880618 * S_deg_malig ;
+MPRINT(EM_DIAGRAM):   H12 = -1.14470380880618 * S_deg_malig ;
+23196     +   H13  =    -0.05499579882751 * S_deg_malig ;
+MPRINT(EM_DIAGRAM):   H13 = -0.05499579882751 * S_deg_malig ;
+23197     +   H11  = H11  +    -0.29476277137846 * age20_29  +      -0.010366167334 *
+23198     +        age30_39  +    -0.17555609047413 * age40_49  +     0.11413435552706 *
+23199     +        age50_59  +    -0.06117744625175 * age60_69  +     -0.5368742297391 *
+23200     +        breastleft  +    -0.24218262404951 * breast_quad_
+23201     +          +     0.06068411466854 * breast_quadcentral
+23202     +          +     0.97640815123223 * breast_quadleft_low
+23203     +          +     0.67644175699563 * breast_quadleft_up
+23204     +          +     0.17789865004419 * breast_quadright_low
+23205     +          +     2.55134897365733 * inv_nodes0_2  +     0.21424158811054 *
+23206     +        inv_nodes12_14  +     0.47820995623683 * inv_nodes15_17
+23207     +          +      0.2622943817266 * inv_nodes24_26  +     0.12643888087769 *
+23208     +        inv_nodes3_5  +     0.84201931474903 * inv_nodes6_8
+23209     +          +     1.04760396339187 * irradiatno  +     0.07463094979299 *
+23210     +        menopausege40  +    -0.44581886051603 * menopauselt40
+23211     +          +    -0.87854603983125 * node_caps_  +      0.4570771968374 *
+23212     +        node_capsno  +     0.37381802079042 * tumor_size0_4
+23213     +          +     0.85670494080923 * tumor_size10_14  +     0.44903004755901 *
+23214     +        tumor_size15_19  +    -0.17074053785079 * tumor_size20_24
+23215     +          +     0.06170619904789 * tumor_size25_29  +    -0.59125038030471 *
+23216     +        tumor_size30_34  +     0.83829482457373 * tumor_size35_39
+23217     +          +     0.62726406774169 * tumor_size40_44  +     -0.1516346314299 *
+23218     +        tumor_size45_49  +     0.52677539133351 * tumor_size5_9 ;
+MPRINT(EM_DIAGRAM):   H11 = H11 + -0.29476277137846 * age20_29 + -0.010366167334 * age30_39 + -0.17555609047413 * age40_49 + 0.11413435552706 * age50_59 + -0.06117744625175 * age60_69 + -0.5368742297391 * breastleft + -0.24218262404951 * breast_quad_ + 
+0.06068411466854 * breast_quadcentral + 0.97640815123223 * breast_quadleft_low + 0.67644175699563 * breast_quadleft_up + 0.17789865004419 * breast_quadright_low + 2.55134897365733 * inv_nodes0_2 + 0.21424158811054 * inv_nodes12_14 + 0.47820995623683 * 
+inv_nodes15_17 + 0.2622943817266 * inv_nodes24_26 + 0.12643888087769 * inv_nodes3_5 + 0.84201931474903 * inv_nodes6_8 + 1.04760396339187 * irradiatno + 0.07463094979299 * menopausege40 + -0.44581886051603 * menopauselt40 + -0.87854603983125 * node_caps_ + 
+0.4570771968374 * node_capsno + 0.37381802079042 * tumor_size0_4 + 0.85670494080923 * tumor_size10_14 + 0.44903004755901 * tumor_size15_19 + -0.17074053785079 * tumor_size20_24 + 0.06170619904789 * tumor_size25_29 + -0.59125038030471 * tumor_size30_34 + 
+0.83829482457373 * tumor_size35_39 + 0.62726406774169 * tumor_size40_44 + -0.1516346314299 * tumor_size45_49 + 0.52677539133351 * tumor_size5_9 ;
+23219     +   H12  = H12  +     0.13027205331591 * age20_29  +    -0.06449783231378 *
+23220     +        age30_39  +     0.05824555950222 * age40_49  +     0.59985459190818 *
+23221     +        age50_59  +    -0.09738234999184 * age60_69  +     -1.1326563834081 *
+23222     +        breastleft  +    -0.09133694414179 * breast_quad_
+23223     +          +     0.28807861638446 * breast_quadcentral
+23224     +          +     0.59779800988374 * breast_quadleft_low
+23225     +          +     1.55322081055081 * breast_quadleft_up
+23226     +          +    -0.90745863860562 * breast_quadright_low
+23227     +          +      1.5776159015562 * inv_nodes0_2  +    -0.78963665052233 *
+23228     +        inv_nodes12_14  +    -0.10914927602566 * inv_nodes15_17
+23229     +          +      -0.287641916432 * inv_nodes24_26  +    -0.37759361721497 *
+23230     +        inv_nodes3_5  +    -0.89487912276378 * inv_nodes6_8
+23231     +          +      1.2533273720272 * irradiatno  +    -0.50422727076849 *
+23232     +        menopausege40  +    -0.63949610800281 * menopauselt40
+23233     +          +    -0.32842346590983 * node_caps_  +      0.1614812996979 *
+23234     +        node_capsno  +     0.15444034413128 * tumor_size0_4
+23235     +          +     0.28921143447212 * tumor_size10_14  +     0.93609534347786 *
+23236     +        tumor_size15_19  +    -0.74160696513512 * tumor_size20_24
+23237     +          +    -0.19349501615176 * tumor_size25_29  +      0.1936345135719 *
+23238     +        tumor_size30_34  +     0.72690837246592 * tumor_size35_39
+23239     +          +      0.1908875766776 * tumor_size40_44  +    -0.11883017715484 *
+23240     +        tumor_size45_49  +    -0.13109284581539 * tumor_size5_9 ;
+MPRINT(EM_DIAGRAM):   H12 = H12 + 0.13027205331591 * age20_29 + -0.06449783231378 * age30_39 + 0.05824555950222 * age40_49 + 0.59985459190818 * age50_59 + -0.09738234999184 * age60_69 + -1.1326563834081 * breastleft + -0.09133694414179 * breast_quad_ + 
+0.28807861638446 * breast_quadcentral + 0.59779800988374 * breast_quadleft_low + 1.55322081055081 * breast_quadleft_up + -0.90745863860562 * breast_quadright_low + 1.5776159015562 * inv_nodes0_2 + -0.78963665052233 * inv_nodes12_14 + -0.10914927602566 * 
+inv_nodes15_17 + -0.287641916432 * inv_nodes24_26 + -0.37759361721497 * inv_nodes3_5 + -0.89487912276378 * inv_nodes6_8 + 1.2533273720272 * irradiatno + -0.50422727076849 * menopausege40 + -0.63949610800281 * menopauselt40 + -0.32842346590983 * node_caps_ 
++ 0.1614812996979 * node_capsno + 0.15444034413128 * tumor_size0_4 + 0.28921143447212 * tumor_size10_14 + 0.93609534347786 * tumor_size15_19 + -0.74160696513512 * tumor_size20_24 + -0.19349501615176 * tumor_size25_29 + 0.1936345135719 * tumor_size30_34 + 
+0.72690837246592 * tumor_size35_39 + 0.1908875766776 * tumor_size40_44 + -0.11883017715484 * tumor_size45_49 + -0.13109284581539 * tumor_size5_9 ;
+23241     +   H13  = H13  +     0.36211839764495 * age20_29  +     0.84571236618358 *
+23242     +        age30_39  +    -0.11526347756118 * age40_49  +    -0.04128901011994 *
+23243     +        age50_59  +     1.68133643204135 * age60_69  +     0.00813386538131 *
+23244     +        breastleft  +     0.53916416059169 * breast_quad_
+23245     +          +    -0.08864316260341 * breast_quadcentral
+23246     +          +     0.82661415499999 * breast_quadleft_low
+23247     +          +     0.71121038673087 * breast_quadleft_up
+23248     +          +    -0.82432838124419 * breast_quadright_low
+23249     +          +     0.17248835987059 * inv_nodes0_2  +     0.64053633216674 *
+23250     +        inv_nodes12_14  +     0.46832383814205 * inv_nodes15_17
+23251     +          +     0.34052933199292 * inv_nodes24_26  +     0.51774207100072 *
+23252     +        inv_nodes3_5  +     0.22081734421893 * inv_nodes6_8
+23253     +          +     0.33158040157428 * irradiatno  +    -0.33994674936188 *
+23254     +        menopausege40  +    -0.23106138538014 * menopauselt40
+23255     +          +    -0.82389546223861 * node_caps_  +    -0.12001895544508 *
+23256     +        node_capsno  +    -0.91622770269526 * tumor_size0_4
+23257     +          +    -2.52443038295481 * tumor_size10_14  +    -1.02411778324248 *
+23258     +        tumor_size15_19  +     1.98266427103372 * tumor_size20_24
+23259     +          +     0.64855674824922 * tumor_size25_29  +     0.40177088900283 *
+23260     +        tumor_size30_34  +     -0.3840784388992 * tumor_size35_39
+23261     +          +    -1.50455217684477 * tumor_size40_44  +     0.95362832752501 *
+23262     +        tumor_size45_49  +    -0.76716804997565 * tumor_size5_9 ;
+MPRINT(EM_DIAGRAM):   H13 = H13 + 0.36211839764495 * age20_29 + 0.84571236618358 * age30_39 + -0.11526347756118 * age40_49 + -0.04128901011994 * age50_59 + 1.68133643204135 * age60_69 + 0.00813386538131 * breastleft + 0.53916416059169 * breast_quad_ + 
+-0.08864316260341 * breast_quadcentral + 0.82661415499999 * breast_quadleft_low + 0.71121038673087 * breast_quadleft_up + -0.82432838124419 * breast_quadright_low + 0.17248835987059 * inv_nodes0_2 + 0.64053633216674 * inv_nodes12_14 + 0.46832383814205 * 
+inv_nodes15_17 + 0.34052933199292 * inv_nodes24_26 + 0.51774207100072 * inv_nodes3_5 + 0.22081734421893 * inv_nodes6_8 + 0.33158040157428 * irradiatno + -0.33994674936188 * menopausege40 + -0.23106138538014 * menopauselt40 + -0.82389546223861 * node_caps_ 
++ -0.12001895544508 * node_capsno + -0.91622770269526 * tumor_size0_4 + -2.52443038295481 * tumor_size10_14 + -1.02411778324248 * tumor_size15_19 + 1.98266427103372 * tumor_size20_24 + 0.64855674824922 * tumor_size25_29 + 0.40177088900283 * 
+tumor_size30_34 + -0.3840784388992 * tumor_size35_39 + -1.50455217684477 * tumor_size40_44 + 0.95362832752501 * tumor_size45_49 + -0.76716804997565 * tumor_size5_9 ;
+23263     +   H11  =     1.16497275748927 + H11 ;
+MPRINT(EM_DIAGRAM):   H11 = 1.16497275748927 + H11 ;
+23264     +   H12  =     3.06145127542367 + H12 ;
+MPRINT(EM_DIAGRAM):   H12 = 3.06145127542367 + H12 ;
+23265     +   H13  =     1.14117810063498 + H13 ;
+MPRINT(EM_DIAGRAM):   H13 = 1.14117810063498 + H13 ;
+23266     +   H11  = TANH(H11 );
+MPRINT(EM_DIAGRAM):   H11 = TANH(H11 );
+23267     +   H12  = TANH(H12 );
+MPRINT(EM_DIAGRAM):   H12 = TANH(H12 );
+23268     +   H13  = TANH(H13 );
+MPRINT(EM_DIAGRAM):   H13 = TANH(H13 );
+23269     +END;
+MPRINT(EM_DIAGRAM):   END;
+23270     +ELSE DO;
+MPRINT(EM_DIAGRAM):   ELSE DO;
+23271     +   H11  = .;
+MPRINT(EM_DIAGRAM):   H11 = .;
+23272     +   H12  = .;
+MPRINT(EM_DIAGRAM):   H12 = .;
+23273     +   H13  = .;
+MPRINT(EM_DIAGRAM):   H13 = .;
+23274     +END;
+MPRINT(EM_DIAGRAM):   END;
+23275     +*** *************************;
+MPRINT(EM_DIAGRAM):   *** *************************;
+23276     +*** Writing the Node Class ;
+MPRINT(EM_DIAGRAM):   *** Writing the Node Class ;
+23277     +*** *************************;
+MPRINT(EM_DIAGRAM):   *** *************************;
+23278     +
+23279     +*** Generate dummy variables for Class ;
+MPRINT(EM_DIAGRAM):   *** Generate dummy variables for Class ;
+23280     +drop Classrecurrence_events Classno_recurrence_events ;
+MPRINT(EM_DIAGRAM):   drop Classrecurrence_events Classno_recurrence_events ;
+23281     +label F_Class = 'From: Class' ;
+MPRINT(EM_DIAGRAM):   label F_Class = 'From: Class' ;
+23282     +length F_Class $ 20;
+MPRINT(EM_DIAGRAM):   length F_Class $ 20;
+23283     +F_Class = put( Class , $20. );
+MPRINT(EM_DIAGRAM):   F_Class = put( Class , $20. );
+23284     +%DMNORMIP( F_Class )
+MPRINT(DMNORMIP):   call dmnorm(F_Class,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMIP):  );
+23285     +if missing( Class ) then do;
+MPRINT(EM_DIAGRAM):   if missing( Class ) then do;
+23286     +   Classrecurrence_events = .;
+MPRINT(EM_DIAGRAM):   Classrecurrence_events = .;
+23287     +   Classno_recurrence_events = .;
+MPRINT(EM_DIAGRAM):   Classno_recurrence_events = .;
+23288     +end;
+MPRINT(EM_DIAGRAM):   end;
+23289     +else do;
+MPRINT(EM_DIAGRAM):   else do;
+23290     +   if F_Class = 'NO-RECURRENCE-EVENTS'  then do;
+MPRINT(EM_DIAGRAM):   if F_Class = 'NO-RECURRENCE-EVENTS' then do;
+23291     +      Classrecurrence_events = 0;
+MPRINT(EM_DIAGRAM):   Classrecurrence_events = 0;
+23292     +      Classno_recurrence_events = 1;
+MPRINT(EM_DIAGRAM):   Classno_recurrence_events = 1;
+23293     +   end;
+MPRINT(EM_DIAGRAM):   end;
+23294     +   else if F_Class = 'RECURRENCE-EVENTS'  then do;
+MPRINT(EM_DIAGRAM):   else if F_Class = 'RECURRENCE-EVENTS' then do;
+23295     +      Classrecurrence_events = 1;
+MPRINT(EM_DIAGRAM):   Classrecurrence_events = 1;
+23296     +      Classno_recurrence_events = 0;
+MPRINT(EM_DIAGRAM):   Classno_recurrence_events = 0;
+23297     +   end;
+MPRINT(EM_DIAGRAM):   end;
+23298     +   else do;
+MPRINT(EM_DIAGRAM):   else do;
+23299     +      Classrecurrence_events = .;
+MPRINT(EM_DIAGRAM):   Classrecurrence_events = .;
+23300     +      Classno_recurrence_events = .;
+MPRINT(EM_DIAGRAM):   Classno_recurrence_events = .;
+23301     +   end;
+MPRINT(EM_DIAGRAM):   end;
+23302     +end;
+MPRINT(EM_DIAGRAM):   end;
+23303     +IF _DM_BAD EQ 0 THEN DO;
+MPRINT(EM_DIAGRAM):   IF _DM_BAD EQ 0 THEN DO;
+23304     +   P_Classrecurrence_events  =    -4.90336136114846 * H11
+23305     +          +    -13.4892200433884 * H12  +     16.7487792253409 * H13 ;
+MPRINT(EM_DIAGRAM):   P_Classrecurrence_events = -4.90336136114846 * H11 + -13.4892200433884 * H12 + 16.7487792253409 * H13 ;
+23306     +   P_Classrecurrence_events  =     0.57881101949988 + P_Classrecurrence_events
+23307     +         ;
+MPRINT(EM_DIAGRAM):   P_Classrecurrence_events = 0.57881101949988 + P_Classrecurrence_events ;
+23308     +   P_Classno_recurrence_events  = 0;
+MPRINT(EM_DIAGRAM):   P_Classno_recurrence_events = 0;
+23309     +   _MAX_ = MAX (P_Classrecurrence_events , P_Classno_recurrence_events );
+MPRINT(EM_DIAGRAM):   _MAX_ = MAX (P_Classrecurrence_events , P_Classno_recurrence_events );
+23310     +   _SUM_ = 0.;
+MPRINT(EM_DIAGRAM):   _SUM_ = 0.;
+23311     +   P_Classrecurrence_events  = EXP(P_Classrecurrence_events  - _MAX_);
+MPRINT(EM_DIAGRAM):   P_Classrecurrence_events = EXP(P_Classrecurrence_events - _MAX_);
+23312     +   _SUM_ = _SUM_ + P_Classrecurrence_events ;
+MPRINT(EM_DIAGRAM):   _SUM_ = _SUM_ + P_Classrecurrence_events ;
+23313     +   P_Classno_recurrence_events  = EXP(P_Classno_recurrence_events  - _MAX_);
+MPRINT(EM_DIAGRAM):   P_Classno_recurrence_events = EXP(P_Classno_recurrence_events - _MAX_);
+23314     +   _SUM_ = _SUM_ + P_Classno_recurrence_events ;
+MPRINT(EM_DIAGRAM):   _SUM_ = _SUM_ + P_Classno_recurrence_events ;
+23315     +   P_Classrecurrence_events  = P_Classrecurrence_events  / _SUM_;
+MPRINT(EM_DIAGRAM):   P_Classrecurrence_events = P_Classrecurrence_events / _SUM_;
+23316     +   P_Classno_recurrence_events  = P_Classno_recurrence_events  / _SUM_;
+MPRINT(EM_DIAGRAM):   P_Classno_recurrence_events = P_Classno_recurrence_events / _SUM_;
+23317     +END;
+MPRINT(EM_DIAGRAM):   END;
+23318     +ELSE DO;
+MPRINT(EM_DIAGRAM):   ELSE DO;
+23319     +   P_Classrecurrence_events  = .;
+MPRINT(EM_DIAGRAM):   P_Classrecurrence_events = .;
+23320     +   P_Classno_recurrence_events  = .;
+MPRINT(EM_DIAGRAM):   P_Classno_recurrence_events = .;
+23321     +END;
+MPRINT(EM_DIAGRAM):   END;
+23322     +IF _DM_BAD EQ 1 THEN DO;
+MPRINT(EM_DIAGRAM):   IF _DM_BAD EQ 1 THEN DO;
+23323     +   P_Classrecurrence_events  =      0.2964824120603;
+MPRINT(EM_DIAGRAM):   P_Classrecurrence_events = 0.2964824120603;
+23324     +   P_Classno_recurrence_events  =     0.70351758793969;
+MPRINT(EM_DIAGRAM):   P_Classno_recurrence_events = 0.70351758793969;
+23325     +END;
+MPRINT(EM_DIAGRAM):   END;
+23326     +*** *****************************;
+MPRINT(EM_DIAGRAM):   *** *****************************;
+23327     +*** Writing the Residuals  of the Node Class ;
+MPRINT(EM_DIAGRAM):   *** Writing the Residuals of the Node Class ;
+23328     +*** ******************************;
+MPRINT(EM_DIAGRAM):   *** ******************************;
+23329     +IF MISSING( Classrecurrence_events ) THEN R_Classrecurrence_events  = . ;
+MPRINT(EM_DIAGRAM):   IF MISSING( Classrecurrence_events ) THEN R_Classrecurrence_events = . ;
+23330     +ELSE R_Classrecurrence_events  = Classrecurrence_events  -
+23331     +        P_Classrecurrence_events ;
+MPRINT(EM_DIAGRAM):   ELSE R_Classrecurrence_events = Classrecurrence_events - P_Classrecurrence_events ;
+23332     +IF MISSING( Classno_recurrence_events ) THEN R_Classno_recurrence_events
+23333     +          = . ;
+MPRINT(EM_DIAGRAM):   IF MISSING( Classno_recurrence_events ) THEN R_Classno_recurrence_events = . ;
+23334     +ELSE R_Classno_recurrence_events  = Classno_recurrence_events  -
+23335     +        P_Classno_recurrence_events ;
+MPRINT(EM_DIAGRAM):   ELSE R_Classno_recurrence_events = Classno_recurrence_events - P_Classno_recurrence_events ;
+23336     +*** *************************;
+MPRINT(EM_DIAGRAM):   *** *************************;
+23337     +*** Writing the I_Class  AND U_Class ;
+MPRINT(EM_DIAGRAM):   *** Writing the I_Class AND U_Class ;
+23338     +*** *************************;
+MPRINT(EM_DIAGRAM):   *** *************************;
+23339     +_MAXP_ = P_Classrecurrence_events ;
+MPRINT(EM_DIAGRAM):   _MAXP_ = P_Classrecurrence_events ;
+23340     +I_Class  = "RECURRENCE-EVENTS   " ;
+MPRINT(EM_DIAGRAM):   I_Class = "RECURRENCE-EVENTS   " ;
+23341     +U_Class  = "recurrence-events   " ;
+MPRINT(EM_DIAGRAM):   U_Class = "recurrence-events   " ;
+23342     +IF( _MAXP_ LT P_Classno_recurrence_events  ) THEN DO;
+MPRINT(EM_DIAGRAM):   IF( _MAXP_ LT P_Classno_recurrence_events ) THEN DO;
+23343     +   _MAXP_ = P_Classno_recurrence_events ;
+MPRINT(EM_DIAGRAM):   _MAXP_ = P_Classno_recurrence_events ;
+23344     +   I_Class  = "NO-RECURRENCE-EVENTS" ;
+MPRINT(EM_DIAGRAM):   I_Class = "NO-RECURRENCE-EVENTS" ;
+23345     +   U_Class  = "no-recurrence-events" ;
+MPRINT(EM_DIAGRAM):   U_Class = "no-recurrence-events" ;
+23346     +END;
+MPRINT(EM_DIAGRAM):   END;
+23347     +********************************;
+MPRINT(EM_DIAGRAM):   ********************************;
+23348     +*** End Scoring Code for Neural;
+MPRINT(EM_DIAGRAM):   *** End Scoring Code for Neural;
+23349     +********************************;
+MPRINT(EM_DIAGRAM):   ********************************;
+23350     +drop
+23351     +H11
+23352     +H12
+23353     +H13
+23354     +;
+MPRINT(EM_DIAGRAM):   drop H11 H12 H13 ;
+23355     +drop S_:;
+MPRINT(EM_DIAGRAM):   drop S_:;
+NOTE: %INCLUDE (level 1) ending.
+MPRINT(EM_DIAGRAM):   run;
+23356      run;
+
+NOTE: DATA STEP view saved on file EMWS1.NEURAL_VALIDATE.
+NOTE: A stored DATA STEP view cannot run under a different operating system.
+NOTE: View EMWS1.IMPT_VALIDATE.VIEW used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.01 seconds
+      
+NOTE: DATA statement used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+23357      quit;
+23358      filename emflow;
+MPRINT(EM_DIAGRAM):   filename emflow;
+NOTE: Fileref EMFLOW has been deassigned.
+23359      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+23360      * Neural: Computing metadata for TRAIN data;
+MPRINT(EM_DIAGRAM):   * Neural: Computing metadata for TRAIN data;
+23361      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+
+NOTE: View EMWS1.NEURAL_TRAIN.VIEW used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.01 seconds
+      
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * &nodeid: Computing Metadata for TRAIN data;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   filename _delta "C:\Users\RAHUL AGARWAL\Desktop\new\Workspaces\EMWS1\Neural\CDELTA_TRAIN.sas";
+MPRINT(EMADVISECOLUMNS):   proc display c=sashelp.emmeta.advisecolumns.scl;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    options validvarname=any;
+MPRINT(EMADVISECOLUMNS):   proc contents data=EMWS1.Neural_TRAIN out=_tempAdvisor noprint;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):   options validvarname=V7;
+MPRINT(EMADVISECOLUMNS):    data _null_;
+MPRINT(EMADVISECOLUMNS):   dsid = open('EMWS1.Neural_TRAIN');
+MPRINT(EMADVISECOLUMNS):   call symput('_dsidTable', strip(put(dsid, best.)));
+MPRINT(EMADVISECOLUMNS):   if dsid then do;
+MPRINT(EMADVISECOLUMNS):   call symput('_engineTable', attrc(dsid, 'ENGINE'));
+MPRINT(EMADVISECOLUMNS):   dsid = close(dsid);
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    proc contents data=EMWS1.Neural_TRAIN out=WORK.M2KO02PQ noprint;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M2KO02PQ;
+MPRINT(EMADVISECOLUMNS):   length NAME $ 64 TYPE $ 1 LABEL $ 200 FORMAT $ 36 INFORMAT $36 INDEX $ 1 INDEXTYPE $ 9;
+MPRINT(EMADVISECOLUMNS):   label NAME =;
+MPRINT(EMADVISECOLUMNS):   set WORK.M2KO02PQ(keep=name type length label format formatl formatd informat informl informd idxusage rename=(type=itype));
+MPRINT(EMADVISECOLUMNS):   if itype = 1 then type = 'N';
+MPRINT(EMADVISECOLUMNS):   else type = 'C';
+MPRINT(EMADVISECOLUMNS):   if formatl > 0 then do;
+MPRINT(EMADVISECOLUMNS):   if format ne '' then do;
+MPRINT(EMADVISECOLUMNS):   if type='N' then format = strip(format)!!strip(put(formatl, best12.))!!'.'!!strip(put(formatd, best12.));
+MPRINT(EMADVISECOLUMNS):   else format = strip(format)!!strip(put(formatl, best12.))!!'.';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else format = strip(put(formatl, best12.))!!'.'!!strip(put(formatd, best12.));
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if format ne '' then format = strip(format)!!'.';
+MPRINT(EMADVISECOLUMNS):   if informl > 0 then do;
+MPRINT(EMADVISECOLUMNS):   if informat ne ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if type='N' then informat = strip(informat)!!strip(put(informl, best12.))!!'.'!!strip(put(informd, best12.));
+MPRINT(EMADVISECOLUMNS):   else informat = strip(informat)!!strip(put(informl, best12.))!!'.';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else informat = strip(put(informl, best12.))!!'.'!!strip(put(informd, best12.));
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if informat ne '' then informat = strip(informat)!!'.';
+MPRINT(EMADVISECOLUMNS):   if idxusage = 'NONE' then index ="N";
+MPRINT(EMADVISECOLUMNS):   else index = "Y";
+MPRINT(EMADVISECOLUMNS):   indextype = idxusage;
+MPRINT(EMADVISECOLUMNS):   drop idxusage itype formatl formatd informl informd;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M2KO02PQ;
+MPRINT(EMADVISECOLUMNS):   length UNAME $64;
+MPRINT(EMADVISECOLUMNS):   set WORK.M2KO02PQ;
+MPRINT(EMADVISECOLUMNS):   UNAME = upcase(NAME);
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    proc sort data=WORK.M0J_EIE2 NOTHREADS;
+MPRINT(EMADVISECOLUMNS):   by UNAME;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M0J_EIE2;
+MPRINT(EMADVISECOLUMNS):   drop UNAME;
+MPRINT(EMADVISECOLUMNS):   set WORK.M0J_EIE2;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M0H4R6LT(keep=NAME ATTR);
+MPRINT(EMADVISECOLUMNS):   length ATTR $ 20;
+MPRINT(EMADVISECOLUMNS):   set WORK.M0J_EIE2;
+MPRINT(EMADVISECOLUMNS):   if level ne "INTERVAL" then do;
+MPRINT(EMADVISECOLUMNS):   if order = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'ORDER';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if format ne ' ' and formattype = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'FORMATTYPE';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if role = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'ROLE';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if level = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'LEVEL';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if type = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'TYPE';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if index = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'INDEX';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if report = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'REPORT';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):   proc sort NOTHREADS;
+MPRINT(EMADVISECOLUMNS):   by attr;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M0J_EIE2;
+MPRINT(EMADVISECOLUMNS):   length NAME $64 ROLE $ 32 LEVEL $ 10 ORDER $ 8 CREATOR $32 FORMATTYPE $ 10 FAMILY $ 10 LOWERLIMIT 8 UPPERLIMIT 8 REPORT $1 DISTRIBUTION $ 20 COMMENT $64;
+MPRINT(EMADVISECOLUMNS):   length levelAssigned 8 roleAssigned 8 PRICE 8;
+MPRINT(EMADVISECOLUMNS):   set WORK.M0J_EIE2;
+MPRINT(EMADVISECOLUMNS):   if formattype = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if format ne ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if type = 'N' then do;
+MPRINT(EMADVISECOLUMNS):   pos = indexc(format,'.1234567890');
+MPRINT(EMADVISECOLUMNS):   if pos > 1 then tempfmt = substr(format,1, pos-1);
+MPRINT(EMADVISECOLUMNS):   else tempfmt = ' ';
+MPRINT(EMADVISECOLUMNS):   flen = length(tempfmt);
+MPRINT(EMADVISECOLUMNS):   select;
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("DATE" "DAY" "DDMMYY" "DOWNAME" "JULDAY" "JULIAN" "MMDDYY" "MMDDYYD" "MMDDYYC" "MMDDYYN" "MMDDYYP" "MMDDYYS" "MONNAME" "MONTH" "MONYY" "NENGO" "QTR" "QTRR" "WEEKDATE" "WEEKDATX" "WEEKDAY" "WORDDATE" "WORDDATX" 
+"YEAR" "YYMMDD" "YYMON" "YYMMDDC" "YYMMDDD" "YYMMDDN" "YYMMDDP" "YYMMDDS" "EURDFDE" "NJDATE" "NLDATE" "EURDFDD" "EURDFDWN" "EURDFMN" "EURDFMY" "EURDFWK" "EURDFWKX" "EURDFWDX" "EURDFDN" "EURDFDE" )) formattype = 'DATE';
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("DATETIME" "EURDFDT" "TOD" )) formattype = "DATETIME";
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("HHMM" "HOUR" "MMSS" "TIME" "TIMEAMPM" )) formattype = "TIME";
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("COMMA" "COMMAX" "DOLLAR" "DOLLARX" "E" "FRACT" "NEGPAREN" "PERCENT")) formattype="QUANTITY";
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("BINARY" "HEX" "IB" "OCTAL" "PD" "PIB" "PK" "RB" "SSN" "Z" "ZD")) formattype = "CODING";
+MPRINT(EMADVISECOLUMNS):   otherwise do;
+MPRINT(EMADVISECOLUMNS):   formattype = "USER";
+MPRINT(EMADVISECOLUMNS):   if compress(tempfmt, '0123456789.', '') = '' then formattype='NUM';
+MPRINT(EMADVISECOLUMNS):   else if substr(tempfmt, 1, 6)='NLDATE' then formattype = "DATE";
+MPRINT(EMADVISECOLUMNS):   else if substr(tempfmt, 1, 6)='NLDATM' then formattype = "DATETIME";
+MPRINT(EMADVISECOLUMNS):   else if substr(tempfmt, 1, 4)='NLTIM' then formattype = "TIME";
+MPRINT(EMADVISECOLUMNS):   else if flen >= 4 then do;
+MPRINT(EMADVISECOLUMNS):   str = substr(tempfmt,1,4);
+MPRINT(EMADVISECOLUMNS):   if str in ("MMYY" "YYMM" "YYQR") then formattype ="DATE";
+MPRINT(EMADVISECOLUMNS):   else if str = "S370" then formattype = "CODING";
+MPRINT(EMADVISECOLUMNS):   else if str = "BEST" then formattype = "NUM";
+MPRINT(EMADVISECOLUMNS):   drop str;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if flen >=3 and substr(tempfmt,1,3) = "YYQ" then formatType = "DATE";
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   drop flen tempfmt pos;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else do;
+MPRINT(EMADVISECOLUMNS):   formatType = "CATEGORY";
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if formatType = "NUM" then do;
+MPRINT(EMADVISECOLUMNS):   if index = "Y" then formatType = "DISCRETE";
+MPRINT(EMADVISECOLUMNS):   else formatType = "QUANTITY";
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if level = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if formatType in ("CATEGORY", "CODING", "ID") or type = "C" then level = "NOMINAL";
+MPRINT(EMADVISECOLUMNS):   else level = "INTERVAL";
+MPRINT(EMADVISECOLUMNS):   levelAssigned = 1;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else level = upcase(level);
+MPRINT(EMADVISECOLUMNS):   if role = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   length name_prefix $8 _uname $64;
+MPRINT(EMADVISECOLUMNS):   drop name_prefix _uname _freqflag;
+MPRINT(EMADVISECOLUMNS):   retain _freqflag;
+MPRINT(EMADVISECOLUMNS):   if LENGTH> 80 then ROLE = 'TEXT';
+MPRINT(EMADVISECOLUMNS):   _uname = upcase(NAME);
+MPRINT(EMADVISECOLUMNS):   select(_uname);
+MPRINT(EMADVISECOLUMNS):   when('_PARTIND_') do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'ID';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   when('_WARN_') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_SEGMENT') do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'SEGMENT';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   when('_NODE_') do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'SEGMENT';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   when('EM_CLASSTARGET') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_VALUETARGET') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_PREDICTION') ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   when('EM_PROBABILITY') ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   when('EM_EVENTPROBABILITY') ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   when('EM_CLASSIFICATION') ROLE = 'CLASSIFICATION';
+MPRINT(EMADVISECOLUMNS):   when('EM_DECISION') ROLE = 'DECISION';
+MPRINT(EMADVISECOLUMNS):   when('EM_PROFIT') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_LOSS') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_ROI') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('URI') ROLE = 'URL';
+MPRINT(EMADVISECOLUMNS):   when('FILTERED') ROLE = 'TEXTLOC';
+MPRINT(EMADVISECOLUMNS):   otherwise do;
+MPRINT(EMADVISECOLUMNS):   if upcase(NAME) =: 'ZIP' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'REJECTED';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   COMMENT = 'Rejected by: Exceed the maximum class level of %s';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if upcase(NAME) in('FREQ', 'FREQUENCY') then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'FREQ';
+MPRINT(EMADVISECOLUMNS):   if TYPE = 'C' then ROLE = 'INPUT';
+MPRINT(EMADVISECOLUMNS):   else if _freqflag =1 then ROLE='REJECTED';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else do;
+MPRINT(EMADVISECOLUMNS):   name_prefix = scan(_uname, 1, '_');
+MPRINT(EMADVISECOLUMNS):   if scan(_uname, 2, '_') = '' then name_prefix='';
+MPRINT(EMADVISECOLUMNS):   if name_prefix in('F', 'I', 'U') then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'CLASSIFICATION';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('Q') then ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('P', 'V') then ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('R', 'RS', 'RT', 'RD', 'RDS', 'RDT', 'RA', 'RAS', 'RAT') then ROLE = 'RESIDUAL';
+MPRINT(EMADVISECOLUMNS):   else if name_prefix ='D' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'DECISION';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if name_prefix ='B' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'SEGMENT';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('EP', 'BP', 'CP', 'EL', 'CL', 'BL', 'W', 'ROI', 'IC') then ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   else do;
+MPRINT(EMADVISECOLUMNS):   array _ROLE_ (19) $32 _TEMPORARY_ ('ASSESS','CLASSIFICATION','CENSOR', 'COST', 'CROSSID', 'DECISION', 'ID','INPUT', 'LABEL', 'MISSING','PREDICT','REFERRER','REJECTED', 'RESIDUAL','SEGMENT', 'SEQUENCE','TARGET', 'TEXT', 'TIMEID');
+MPRINT(EMADVISECOLUMNS):   drop _found_ i;
+MPRINT(EMADVISECOLUMNS):   _found_=0;
+MPRINT(EMADVISECOLUMNS):   do i=1 to 19 until(_found_=1);
+MPRINT(EMADVISECOLUMNS):   if index(_uname, trim(_ROLE_{i}))=1 then do;
+MPRINT(EMADVISECOLUMNS):   ROLE=_ROLE_{i};
+MPRINT(EMADVISECOLUMNS):   if ROLE = 'ID' then LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   else if ROLE = 'SEGMENT' then LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   else if ROLE = 'TIMEID' and TYPE='N' then LEVEL = 'INTERVAL';
+MPRINT(EMADVISECOLUMNS):   _found_=1;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if length(_uname)>2 then do;
+MPRINT(EMADVISECOLUMNS):   if substr(reverse(trim(_uname)), 1, 3) = 'DI_' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'ID';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if ROLE='FREQ' then _freqflag=1;
+MPRINT(EMADVISECOLUMNS):   else if ROLE = 'CLASSIFICATION' then LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   if symexist('RATEMKG_ROLE') then do;
+MPRINT(EMADVISECOLUMNS):   if upcase(symget('RATEMKG_ROLE')) in('Y', 'YES') then do;
+MPRINT(EMADVISECOLUMNS):   if _uname =: 'POLICY' then ROLE = 'POLICYID';
+MPRINT(EMADVISECOLUMNS):   else if _uname in ('PARTITION', '_PARTIND_') then ROLE = 'PARTITION';
+MPRINT(EMADVISECOLUMNS):   else if type = 'N' then do;
+MPRINT(EMADVISECOLUMNS):   if _uname = 'EXPOSURE' then ROLE = 'EXPOSURE';
+MPRINT(EMADVISECOLUMNS):   else if _uname = 'YEAR' then ROLE = 'YEAR';
+MPRINT(EMADVISECOLUMNS):   else if _uname = 'WEIGHT' then ROLE = 'WEIGHT';
+MPRINT(EMADVISECOLUMNS):   else if _uname = 'OFFSET' then ROLE = 'OFFSET';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if role = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if formattype in('DATE', 'DATETIME', 'TIME') then role = 'TIMEID';
+MPRINT(EMADVISECOLUMNS):   else role = 'INPUT';
+MPRINT(EMADVISECOLUMNS):   roleAssigned = 1;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else role = upcase(role);
+MPRINT(EMADVISECOLUMNS):   if REPORT = '' then REPORT = 'N';
+MPRINT(EMADVISECOLUMNS):   if symexist('dmwb_product') then do;
+MPRINT(EMADVISECOLUMNS):   if upcase(symget('dmwb_product')) = 'FACTORYMINER_DATASOURCE' then do;
+MPRINT(EMADVISECOLUMNS):   if ROLE ^in('INPUT', 'TARGET', 'REJECTED', 'SEGMENT', 'FREQ', 'ID', 'KEY') then ROLE='REJECTED';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M0J_EIE2;
+MPRINT(EMADVISECOLUMNS):   set WORK.M0J_EIE2;
+MPRINT(EMADVISECOLUMNS):   label NAME = "Variable Name" TYPE = "Type" ROLE = "Role" LEVEL= "Measurement Level" ORDER= "Order" CREATOR= "Creator" FORMATTYPE= "Format Type" FAMILY= "Family" DISTRIBUTION= "Distribution" PRICE= "Price" LOWERLIMIT= "Lower 
+limit" UPPERLIMIT= "Upper Limit" REPORT= "Report" COMMENT= "Comment" INDEX= "Index" INDEXTYPE= "IndexType" LABEL= "Label" LENGTH= "Length";
+MPRINT(EMADVISECOLUMNS):   drop levelAssigned roleAssigned;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):   
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.COLUMNMETA;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * &nodeid: Merge incoming metadata;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   proc contents data=EMWS1.Impt_TRAIN noprint out=_temp2(keep=NAME);
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   proc sort data=_temp2;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   proc sort data=EMWS1.Impt_CMeta_TRAIN out=_temp;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data EMWS1.Neural_CMeta_TRAIN;
+MPRINT(EM_DIAGRAM):   merge WORK.COLUMNMETA(in=_a) _temp2(in=_b) _temp(drop=FORMAT INFORMAT LENGTH INDEX INDEXTYPE in=_c) end=_eof_;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   if (^_a and _b) or (^_c and _a and _b) then delete;
+MPRINT(EM_DIAGRAM):   if ^_b then CREATOR = "Neural";
+MPRINT(EM_DIAGRAM):   length model $200;
+MPRINT(EM_DIAGRAM):   label MODEL = "Model Node";
+MPRINT(EM_DIAGRAM):   select(upcase(name));
+MPRINT(EM_DIAGRAM):   when("_WARN_") creator = "Neural";
+MPRINT(EM_DIAGRAM):   when("CLASS") model = "Neural";
+MPRINT(EM_DIAGRAM):   when('');
+MPRINT(EM_DIAGRAM):   otherwise;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Neural: Apply Delta Code;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   filename _delta;
+23707      data WORK.MODELTEMP_INFO;
+MPRINT(EM_DIAGRAM):    data WORK.MODELTEMP_INFO;
+23708      set EMWS1.Neural_EMINFO;
+MPRINT(EM_DIAGRAM):   set EMWS1.Neural_EMINFO;
+23709      where DATA='Neural' and KEY ^in('DECDATA', 'DECMETA', 'IMPORTANCE', 'MODEL');
+MPRINT(EM_DIAGRAM):   where DATA='Neural' and KEY ^in('DECDATA', 'DECMETA', 'IMPORTANCE', 'MODEL');
+23710      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: There were 0 observations read from the data set EMWS1.NEURAL_EMINFO.
+      WHERE (DATA='Neural') and KEY not in ('DECDATA', 'DECMETA', 'IMPORTANCE', 'MODEL');
+NOTE: The data set WORK.MODELTEMP_INFO has 0 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+23711      data EMWS1.Neural_EMINFO;
+MPRINT(EM_DIAGRAM):    data EMWS1.Neural_EMINFO;
+23712      length TARGET KEY $32 DATA $43;
+MPRINT(EM_DIAGRAM):   length TARGET KEY $32 DATA $43;
+23713      input TARGET KEY DATA $;
+MPRINT(EM_DIAGRAM):   input TARGET KEY DATA $;
+23714      cards;
+MPRINT(EM_DIAGRAM):   cards;
+
+NOTE: The data set EMWS1.NEURAL_EMINFO has 3 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+MPRINT(EM_DIAGRAM):   run;
+23718      run;
+23719      data EMWS1.Neural_EMINFO;
+MPRINT(EM_DIAGRAM):   data EMWS1.Neural_EMINFO;
+23720      set EMWS1.Neural_EMINFO WORK.MODELTEMP_INFO;
+MPRINT(EM_DIAGRAM):   set EMWS1.Neural_EMINFO WORK.MODELTEMP_INFO;
+23721      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: There were 3 observations read from the data set EMWS1.NEURAL_EMINFO.
+NOTE: There were 0 observations read from the data set WORK.MODELTEMP_INFO.
+NOTE: The data set EMWS1.NEURAL_EMINFO has 3 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+23722      proc sort data = EMWS1.Neural_EMINFO NOTHREADS;
+MPRINT(EM_DIAGRAM):    proc sort data = EMWS1.Neural_EMINFO NOTHREADS;
+23723      by TARGET KEY;
+MPRINT(EM_DIAGRAM):   by TARGET KEY;
+23724      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: There were 3 observations read from the data set EMWS1.NEURAL_EMINFO.
+NOTE: The data set EMWS1.NEURAL_EMINFO has 3 observations and 3 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: View EMWS1.NEURAL_TRAIN.VIEW used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.01 seconds
+      
+NOTE: View EMWS1.NEURAL_VALIDATE.VIEW used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+      
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

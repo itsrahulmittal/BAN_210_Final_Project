@@ -1,0 +1,68 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "06 August 2022" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "19:45:12" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* Report Log";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* Report Log
+Date:                06 August 2022
+Time:                19:45:12
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O3U30FC_ "C:\Users\RAHUL AGARWAL\Desktop\new\Workspaces\EMWS1\HPExpl\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O3U30FC_ new;
+MPRINT(EM_DIAGRAM):   run;
+22878      %let EMEXCEPTIONSTRING=;
+22879      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+22880      * REPORT: HPExpl;
+MPRINT(EM_DIAGRAM):   * REPORT: HPExpl;
+22881      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22882      %let EM_ACTION = REPORT;
+22883      %let syscc = 0;
+22884      %macro hpdm_explore_main;
+22885      
+22886         %if %upcase(&EM_ACTION) = CREATE %then %do;
+22887      
+22888             filename temp catalog 'sashelp.hpdm.Explore_create.source';
+22889             %include temp;
+22890             filename temp;
+22891             %hpdm_explore_create;
+22892         %end;
+22893         %else
+22894         %if %upcase(&EM_ACTION) = TRAIN %then %do;
+22895      
+22896             filename temp catalog 'sashelp.hpdm.Explore_train.source';
+22897             %include temp;
+22898             filename temp;
+22899             %hpdm_explore_train;
+22900         %end;
+22901      
+22902      %mend hpdm_explore_main;
+22903      %hpdm_explore_main;
+MPRINT(EM_DIAGRAM):    
+MPRINT(EM_DIAGRAM):  ;
+22904      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22905      * End REPORT: HPExpl;
+MPRINT(EM_DIAGRAM):   * End REPORT: HPExpl;
+22906      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+
+22907      /* Reset EM Options */
+22908      options formchar="|----|+|---+=|-/\<>*";
+MPRINT(EM_DIAGRAM):    options formchar="|----|+|---+=|-/\<>*";
+22909      options nocenter ls=256 ps=10000;
+MPRINT(EM_DIAGRAM):   options nocenter ls=256 ps=10000;
+22910      goptions reset=all device=GIF NODISPLAY;
+MPRINT(EM_DIAGRAM):   goptions reset=all device=GIF NODISPLAY;
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

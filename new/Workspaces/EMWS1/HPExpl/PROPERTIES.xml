@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?><_ROOT_  Location="CATALOG" ToolType="EXPLORE" Catalog="SASHELP.HPDM.EXPLORE.SOURCE" MaxLevels="32"
+ WinsorStat="N" TrimmedStat="N" Cutoff="5" Quantiles="N" ForceRun="N" RunAction="Train"
+ Component="HPDMExplore" SummaryStat="Y" RawCreateTime="1965664706.3" CreateTime="15APR2022:17:58:26"
+ RunId="c9c4e2ab-ff6e-472f-9b11-898d8eda0079">
+<VARIABLEPROPERTIES/>
+<FILEPROPERTIES ><![CDATA[
+USERTRAINCODE
+USERSCORECODE
+USERREPORTCODE
+]]>
+</FILEPROPERTIES></_ROOT_>

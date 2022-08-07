@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?><_ROOT_  NumberOfReportedLevels="1E-6" NormalizeReportingVariables="Y" DecileBin="20" LiftEpsilon="1E-6"
+ ProfitEpsilon="1E-6" RoiEpsilon="1E-6" ScoreDistBin="20" RocChart="Y" RocEpsilon="0.01"
+ AssessAllTargetLevels="N" SelectionData="DEFAULT" HPCriteria="DEFAULT" SelectionTable="TRAIN"
+ SelectionCriteria="DEFAULT" SelectionDepth="10" NumberofBins="20" RecomputeAssess="N"
+ TargetName="Class" ModelId="Neural" ModelDescription="Neural Network" ModelCriteria="Valid: Misclassification Rate"
+ ForceRun="N" RunAction="Train" Component="ModelCompare" RawCreateTime="1965686044.4"
+ CreateTime="15APR2022:23:54:04" RunId="4bd113c7-93c1-4798-a8a6-faeb3cc4d030" StatisticUsed="_VMISC_"
+ TargetLabel="Class" RawLastTimeRun="1975434433.9" RawRunTime="9.5269999504" LastTimeRun="06AUG2022:19:47:14"
+ RunTime="0 Hr. 0 Min. 9.53 Sec.">
+<VARIABLEPROPERTIES/>
+<FILEPROPERTIES/>
+</_ROOT_>
